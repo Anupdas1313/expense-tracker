@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../lib/db';
 import { format, startOfMonth, endOfMonth, isWithinInterval, isToday, isYesterday, parseISO, startOfDay, endOfDay } from 'date-fns';
-import { Plus, ChevronLeft, ChevronRight, Calendar as CalendarIcon, X, Trash2, ArrowDownLeft, ArrowUpRight, Wallet } from 'lucide-react';
+import { Plus, ChevronLeft, ChevronRight, Calendar as CalendarIcon, X, Trash2, ArrowDownLeft, ArrowUpRight, Wallet, Share2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -148,26 +148,41 @@ export default function Transactions() {
           </button>
         </div>
         
-        <div className="grid grid-cols-3 gap-3">
-          <div className="bg-gray-200 p-2 rounded-2xl shadow-inner">
-            <div className="bg-white p-3 rounded-xl h-full flex flex-col justify-center shadow-sm">
-              <p className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Inflow</p>
-              <p className="text-sm sm:text-base font-bold text-emerald-600 leading-none">+</p>
-              <p className="text-base sm:text-xl font-black text-emerald-600 leading-none mt-1">₹{totalIncome.toLocaleString('en-IN')}</p>
+        <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm py-4">
+          <button className="absolute top-3 right-3 p-1.5 text-gray-500 hover:bg-gray-50 rounded-full transition-colors border border-gray-200 shadow-sm bg-white z-10">
+            <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          </button>
+          
+          <div className="grid grid-cols-3 divide-x divide-gray-100">
+            {/* Outflow */}
+            <div className="flex flex-col items-center justify-center text-center px-1">
+              <div className="flex items-center justify-center gap-1 mb-1.5">
+                <ArrowDownLeft className="w-3.5 h-3.5 text-rose-500" />
+                <span className="text-[11px] sm:text-sm font-semibold text-gray-500">Total Outflow</span>
+              </div>
+              <p className="text-base sm:text-2xl font-bold text-rose-600 tracking-tight truncate w-full">
+                -₹{totalExpense.toLocaleString('en-IN')}
+              </p>
             </div>
-          </div>
-          <div className="bg-gray-200 p-2 rounded-2xl shadow-inner">
-            <div className="bg-white p-3 rounded-xl h-full flex flex-col justify-center shadow-sm">
-              <p className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Outflow</p>
-              <p className="text-sm sm:text-base font-bold text-rose-600 leading-none">-</p>
-              <p className="text-base sm:text-xl font-black text-rose-600 leading-none mt-1">₹{totalExpense.toLocaleString('en-IN')}</p>
+
+            {/* Inflow */}
+            <div className="flex flex-col items-center justify-center text-center px-1">
+              <div className="flex items-center justify-center gap-1 mb-1.5">
+                <ArrowUpRight className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="text-[11px] sm:text-sm font-semibold text-gray-500">Total Inflow</span>
+              </div>
+              <p className="text-base sm:text-2xl font-bold text-emerald-600 tracking-tight truncate w-full">
+                +₹{totalIncome.toLocaleString('en-IN')}
+              </p>
             </div>
-          </div>
-          <div className="bg-gray-200 p-2 rounded-2xl shadow-inner">
-            <div className="bg-white p-3 rounded-xl h-full flex flex-col justify-center shadow-sm">
-              <p className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Balance</p>
-              <p className="text-sm sm:text-base font-bold transparent leading-none">&nbsp;</p>
-              <p className={`text-base sm:text-xl font-black leading-none mt-1 ${balance >= 0 ? 'text-indigo-600' : 'text-rose-600'}`}>
+
+            {/* Balance */}
+            <div className="flex flex-col items-center justify-center text-center px-1">
+              <div className="flex items-center justify-center gap-1 mb-1.5">
+                <Wallet className="w-3.5 h-3.5 text-indigo-500" />
+                <span className="text-[11px] sm:text-sm font-semibold text-gray-500">Net Balance</span>
+              </div>
+              <p className={`text-base sm:text-2xl font-bold tracking-tight truncate w-full ${balance >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                 {balance >= 0 ? '+' : '-'}₹{Math.abs(balance).toLocaleString('en-IN')}
               </p>
             </div>

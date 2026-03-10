@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../lib/db';
-import { format, startOfDay, endOfDay } from 'date-fns';
+import { format, startOfDay, endOfDay, subDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Download, ZoomIn, ZoomOut, Search, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Calendar, FileText, Share2, ArrowUpRight, ArrowDownLeft, Wallet, PieChart, Landmark, Sparkles, TrendingUp, Filter } from 'lucide-react';
 import jsPDF from 'jspdf';
@@ -45,9 +45,50 @@ export default function TransactionTable() {
   const [filterCategory, setFilterCategory] = useState('ALL');
   const [filterAccount, setFilterAccount] = useState('ALL');
   const [filterPaymentMethod, setFilterPaymentMethod] = useState('ALL');
+  const [filterExpenseType, setFilterExpenseType] = useState('ALL');
+  const [datePreset, setDatePreset] = useState('CUSTOM');
   
   const [startDate, setStartDate] = useState(startParam ? format(new Date(startParam), 'yyyy-MM-dd') : '');
   const [endDate, setEndDate] = useState(endParam ? format(new Date(endParam), 'yyyy-MM-dd') : '');
+
+  const handleDatePresetChange = (preset: string) => {
+    setDatePreset(preset);
+    const today = new Date();
+    switch (preset) {
+      case 'TODAY':
+        setStartDate(format(today, 'yyyy-MM-dd'));
+        setEndDate(format(today, 'yyyy-MM-dd'));
+        break;
+      case 'YESTERDAY':
+        const yesterday = subDays(today, 1);
+        setStartDate(format(yesterday, 'yyyy-MM-dd'));
+        setEndDate(format(yesterday, 'yyyy-MM-dd'));
+        break;
+      case 'THIS_WEEK':
+        setStartDate(format(startOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd'));
+        setEndDate(format(endOfWeek(today, { weekStartsOn: 1 }), 'yyyy-MM-dd'));
+        break;
+      case 'LAST_10_DAYS':
+        setStartDate(format(subDays(today, 9), 'yyyy-MM-dd'));
+        setEndDate(format(today, 'yyyy-MM-dd'));
+        break;
+      case 'LAST_30_DAYS':
+        setStartDate(format(subDays(today, 29), 'yyyy-MM-dd'));
+        setEndDate(format(today, 'yyyy-MM-dd'));
+        break;
+      case 'THIS_MONTH':
+        setStartDate(format(startOfMonth(today), 'yyyy-MM-dd'));
+        setEndDate(format(endOfMonth(today), 'yyyy-MM-dd'));
+        break;
+      case 'ALL_TIME':
+        setStartDate('');
+        setEndDate('');
+        break;
+      case 'CUSTOM':
+        // keep current dates
+        break;
+    }
+  };
 
   const [isCategoriesExpanded, setIsCategoriesExpanded] = useState(false);
   const [isAccountBreakdownExpanded, setIsAccountBreakdownExpanded] = useState(false);
@@ -122,6 +163,9 @@ export default function TransactionTable() {
         return resolvedMethod === filterPaymentMethod;
       });
     }
+    if (filterExpenseType !== 'ALL') {
+      result = result.filter(tx => tx.expenseType === filterExpenseType);
+    }
 
     // 4. Sorting
     result.sort((a, b) => {
@@ -144,12 +188,12 @@ export default function TransactionTable() {
     });
 
     return result;
-  }, [allTransactionsRaw, accounts, startDate, endDate, searchQuery, filterType, filterCategory, filterAccount, filterPaymentMethod, sortConfig]);
+  }, [allTransactionsRaw, accounts, startDate, endDate, searchQuery, filterType, filterCategory, filterAccount, filterPaymentMethod, filterExpenseType, sortConfig]);
 
   // Reset pagination when filters change
   useMemo(() => {
     setCurrentPage(1);
-  }, [searchQuery, filterType, filterCategory, filterAccount, filterPaymentMethod, startDate, endDate, sortConfig]);
+  }, [searchQuery, filterType, filterCategory, filterAccount, filterPaymentMethod, filterExpenseType, startDate, endDate, sortConfig]);
 
   // Summary calculations
   const summary = useMemo(() => {
@@ -530,32 +574,40 @@ export default function TransactionTable() {
         <div className="relative">
           <div ref={summaryRef} className="flex flex-col gap-4 p-2 -m-2 rounded-xl bg-gray-50">
             {/* KPI Cards */}
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm py-4">
+              <button 
+                onClick={handleShareSummary}
+                className="absolute top-3 right-3 p-1.5 text-gray-500 hover:bg-gray-50 rounded-full transition-colors border border-gray-200 shadow-sm bg-white z-10"
+                title="Share Dashboard"
+              >
+                <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </button>
+              
               <div className="grid grid-cols-3 divide-x divide-gray-100">
-                <div className="p-3 sm:p-5 flex flex-col items-center justify-center text-center">
-                  <div className="text-[10px] sm:text-sm font-semibold text-gray-500 mb-1 sm:mb-2 flex items-center gap-1 uppercase tracking-wider sm:normal-case sm:tracking-normal">
-                    <ArrowDownLeft className="w-3 h-3 sm:w-4 sm:h-4 text-rose-500" />
-                    <span className="hidden sm:inline">Total </span>Outflow
+                <div className="flex flex-col items-center justify-center text-center px-1">
+                  <div className="flex items-center justify-center gap-1 mb-1.5">
+                    <ArrowDownLeft className="w-3.5 h-3.5 text-rose-500" />
+                    <span className="text-[11px] sm:text-sm font-semibold text-gray-500">Total Outflow</span>
                   </div>
-                  <div className="text-sm sm:text-3xl font-bold text-rose-600 truncate w-full">
+                  <div className="text-base sm:text-2xl font-bold text-rose-600 tracking-tight truncate w-full">
                     <CountUp value={summary.spent} prefix="-₹" />
                   </div>
                 </div>
-                <div className="p-3 sm:p-5 flex flex-col items-center justify-center text-center">
-                  <div className="text-[10px] sm:text-sm font-semibold text-gray-500 mb-1 sm:mb-2 flex items-center gap-1 uppercase tracking-wider sm:normal-case sm:tracking-normal">
-                    <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-500" />
-                    <span className="hidden sm:inline">Total </span>Inflow
+                <div className="flex flex-col items-center justify-center text-center px-1">
+                  <div className="flex items-center justify-center gap-1 mb-1.5">
+                    <ArrowUpRight className="w-3.5 h-3.5 text-emerald-500" />
+                    <span className="text-[11px] sm:text-sm font-semibold text-gray-500">Total Inflow</span>
                   </div>
-                  <div className="text-sm sm:text-3xl font-bold text-emerald-600 truncate w-full">
+                  <div className="text-base sm:text-2xl font-bold text-emerald-600 tracking-tight truncate w-full">
                     <CountUp value={summary.received} prefix="+₹" />
                   </div>
                 </div>
-                <div className="p-3 sm:p-5 flex flex-col items-center justify-center text-center bg-gray-50/50">
-                  <div className="text-[10px] sm:text-sm font-semibold text-gray-500 mb-1 sm:mb-2 flex items-center gap-1 uppercase tracking-wider sm:normal-case sm:tracking-normal">
-                    <Wallet className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-500" />
-                    Net<span className="hidden sm:inline"> Balance</span>
+                <div className="flex flex-col items-center justify-center text-center px-1">
+                  <div className="flex items-center justify-center gap-1 mb-1.5">
+                    <Wallet className="w-3.5 h-3.5 text-indigo-500" />
+                    <span className="text-[11px] sm:text-sm font-semibold text-gray-500">Net Balance</span>
                   </div>
-                  <div className={`text-sm sm:text-3xl font-bold truncate w-full ${summary.received - summary.spent >= 0 ? 'text-indigo-600' : 'text-rose-600'}`}>
+                  <div className={`text-base sm:text-2xl font-bold tracking-tight truncate w-full ${summary.received - summary.spent >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                     <CountUp value={Math.abs(summary.received - summary.spent)} prefix={summary.received - summary.spent >= 0 ? '+₹' : '-₹'} />
                   </div>
                 </div>
@@ -708,13 +760,6 @@ export default function TransactionTable() {
               </div>
             </div>
           </div>
-          <button 
-            onClick={handleShareSummary}
-            className="absolute -top-2 -right-2 sm:top-2 sm:right-2 p-2 bg-white border border-gray-200 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full shadow-sm transition-colors z-10"
-            title="Share Dashboard"
-          >
-            <Share2 className="w-4 h-4" />
-          </button>
         </div>
 
         {/* Filters and Search */}
@@ -734,11 +779,10 @@ export default function TransactionTable() {
             {/* Filter Toggle Button */}
             <button 
               onClick={() => setIsFiltersExpanded(!isFiltersExpanded)}
-              className={`p-2 rounded-lg border flex items-center gap-2 transition-colors shrink-0 ${isFiltersExpanded ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'}`}
+              className={`p-2.5 rounded-lg border flex items-center justify-center transition-colors shrink-0 ${isFiltersExpanded ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'}`}
               title="Toggle Filters"
             >
               <Filter className="w-5 h-5" />
-              <span className="hidden sm:inline font-medium text-sm">Filters</span>
             </button>
           </div>
 
@@ -752,38 +796,70 @@ export default function TransactionTable() {
             >
               <div className="flex flex-col sm:flex-row gap-3">
                 {/* Date Range */}
-                <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <div className="relative flex-1 sm:flex-none">
-                    <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
-                    />
-                  </div>
-                  <span className="text-gray-500 text-sm">to</span>
-                  <div className="relative flex-1 sm:flex-none">
-                    <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
-                    />
-                  </div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto">
+                  <select
+                    value={datePreset}
+                    onChange={(e) => handleDatePresetChange(e.target.value)}
+                    className="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white"
+                  >
+                    <option value="ALL_TIME">All Time</option>
+                    <option value="TODAY">Today</option>
+                    <option value="YESTERDAY">Yesterday</option>
+                    <option value="THIS_WEEK">This Week</option>
+                    <option value="LAST_10_DAYS">Last 10 Days</option>
+                    <option value="LAST_30_DAYS">Last 30 Days</option>
+                    <option value="THIS_MONTH">This Month</option>
+                    <option value="CUSTOM">Custom Date</option>
+                  </select>
+
+                  {datePreset === 'CUSTOM' && (
+                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                      <div className="relative flex-1 sm:flex-none">
+                        <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="date"
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                          className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                        />
+                      </div>
+                      <span className="text-gray-500 text-sm">to</span>
+                      <div className="relative flex-1 sm:flex-none">
+                        <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="date"
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                          className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
                 <select
                   value={filterType}
                   onChange={(e) => setFilterType(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white"
                 >
-                  <option value="ALL">All Types</option>
+                  <option value="ALL">Entry Types</option>
                   <option value="CREDIT">Received (Credit)</option>
                   <option value="DEBIT">Paid (Debit)</option>
+                </select>
+
+                <select
+                  value={filterExpenseType}
+                  onChange={(e) => setFilterExpenseType(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white"
+                >
+                  <option value="ALL">Sort Types</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Home">Home</option>
+                  <option value="Miscellaneous">Miscellaneous</option>
+                  <option value="Tenant / Customer">Tenant / Customer</option>
+                  <option value="Other">Other</option>
                 </select>
 
                 <select
