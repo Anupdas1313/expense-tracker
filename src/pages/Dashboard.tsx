@@ -108,10 +108,10 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-[#222222]">Dashboard</h1>
         <button
           onClick={() => setIsAddingManual(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#222222] text-white rounded-xl hover:bg-black transition-colors font-semibold shadow-sm"
         >
           <Plus className="w-4 h-4" />
           Add Transaction
@@ -119,33 +119,33 @@ export default function Dashboard() {
       </div>
 
       {/* Total Balance Card */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+      <div className="bg-white p-6 rounded-[20px] shadow-[0_6px_16px_rgba(0,0,0,0.04)] border border-[#EBEBEB] flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-500">Total Balance</p>
-          <p className="text-4xl font-bold text-gray-900 mt-1">
+          <p className="text-sm font-semibold text-[#717171]">Total Balance</p>
+          <p className="text-4xl font-bold text-[#222222] mt-1 tracking-tight">
             ₹{totalBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center">
-          <Wallet className="w-8 h-8 text-indigo-600" />
+        <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center">
+          <Wallet className="w-8 h-8 text-[#222222]" />
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Accounts List */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-900">Your Accounts</h2>
-            <Link to="/accounts" className="text-sm font-medium text-indigo-600 hover:text-indigo-700">Manage</Link>
+        <div className="bg-white rounded-[20px] shadow-[0_6px_16px_rgba(0,0,0,0.04)] border border-[#EBEBEB] overflow-hidden">
+          <div className="p-6 border-b border-[#EBEBEB] flex justify-between items-center">
+            <h2 className="text-lg font-bold text-[#222222]">Your Accounts</h2>
+            <Link to="/accounts" className="text-sm font-semibold text-[#222222] hover:underline">Manage</Link>
           </div>
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-[#EBEBEB]">
             {balances.length === 0 ? (
-              <div className="p-6 text-center text-gray-500 text-sm">No accounts added yet.</div>
+              <div className="p-6 text-center text-[#717171] text-sm">No accounts added yet.</div>
             ) : (
               balances.map(acc => (
-                <div key={acc.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                <div key={acc.id} className="p-4 flex items-center justify-between hover:bg-neutral-50 transition-colors">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 font-medium overflow-hidden p-1">
+                    <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center text-[#717171] font-bold overflow-hidden p-1">
                       {acc.bankName.toLowerCase().includes('canara') ? (
                         <img src="https://crystalpng.com/wp-content/uploads/2025/11/Canara-Bank-Logo.png" alt="Canara Bank" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
                       ) : acc.bankName.toLowerCase().includes('indus') || acc.bankName.toLowerCase().includes('insus') ? (
@@ -157,11 +157,11 @@ export default function Dashboard() {
                       )}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">{acc.bankName}</p>
-                      <p className="text-xs text-gray-500">**** {acc.accountLast4}</p>
+                      <p className="font-bold text-[#222222]">{acc.bankName}</p>
+                      <p className="text-xs text-[#717171] font-medium">**** {acc.accountLast4}</p>
                     </div>
                   </div>
-                  <p className="font-semibold text-gray-900">
+                  <p className="font-bold text-[#222222]">
                     ₹{acc.currentBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                   </p>
                 </div>
@@ -171,19 +171,19 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Transactions */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-900">Recent Transactions</h2>
-            <Link to="/transactions" className="text-sm font-medium text-indigo-600 hover:text-indigo-700">View All</Link>
+        <div className="bg-white rounded-[20px] shadow-[0_6px_16px_rgba(0,0,0,0.04)] border border-[#EBEBEB] overflow-hidden">
+          <div className="p-6 border-b border-[#EBEBEB] flex justify-between items-center">
+            <h2 className="text-lg font-bold text-[#222222]">Recent Transactions</h2>
+            <Link to="/transactions" className="text-sm font-semibold text-[#222222] hover:underline">View All</Link>
           </div>
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-[#EBEBEB]">
             {transactions.length === 0 ? (
-              <div className="p-6 text-center text-gray-500 text-sm">No transactions yet.</div>
+              <div className="p-6 text-center text-[#717171] text-sm">No transactions yet.</div>
             ) : (
               transactions.map(tx => {
                 const account = accounts.find(a => a.id === tx.accountId);
                 return (
-                  <div key={tx.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                  <div key={tx.id} className="p-4 flex items-center justify-between hover:bg-neutral-50 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                         tx.type === 'CREDIT' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
@@ -191,8 +191,8 @@ export default function Dashboard() {
                         {tx.type === 'CREDIT' ? <ArrowDownRight className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{tx.party || tx.note || tx.category}</p>
-                        <p className="text-xs text-gray-500">
+                        <p className="font-bold text-[#222222]">{tx.party || tx.note || tx.category}</p>
+                        <p className="text-xs text-[#717171] font-medium mt-0.5">
                           {tx.note && tx.party ? `${tx.note} • ` : ''}
                           {format(tx.dateTime, 'MMM dd, yyyy • hh:mm a')}
                           {account && ` • ${account.bankName} ****${account.accountLast4}`}
@@ -214,26 +214,26 @@ export default function Dashboard() {
       {/* Manual Entry Modal */}
       {isAddingManual && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
-              <h2 className="text-xl font-bold text-gray-900">Manual Transaction Entry</h2>
+          <div className="bg-white rounded-[24px] shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-[#EBEBEB] flex justify-between items-center sticky top-0 bg-white z-10">
+              <h2 className="text-xl font-bold text-[#222222]">Manual Transaction Entry</h2>
               <button
                 onClick={() => setIsAddingManual(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-[#717171] hover:text-[#222222] transition-colors p-2 hover:bg-neutral-100 rounded-full"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
             
-            <div className="p-6 space-y-4">
+            <div className="p-6 space-y-5">
               <div className="flex flex-wrap gap-2 mb-4">
                 <button
                   type="button"
                   onClick={() => setExpenseType(expenseType === 'Personal' ? '' : 'Personal')}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
                     expenseType === 'Personal' 
-                      ? 'bg-indigo-100 text-indigo-700 border-2 border-indigo-500' 
-                      : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                      ? 'bg-[#222222] text-white border-2 border-[#222222]' 
+                      : 'bg-white text-[#222222] border-2 border-[#EBEBEB] hover:border-[#222222]'
                   }`}
                 >
                   Personal
@@ -241,10 +241,10 @@ export default function Dashboard() {
                 <button
                   type="button"
                   onClick={() => setExpenseType(expenseType === 'Home' ? '' : 'Home')}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
                     expenseType === 'Home' 
-                      ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-500' 
-                      : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                      ? 'bg-[#222222] text-white border-2 border-[#222222]' 
+                      : 'bg-white text-[#222222] border-2 border-[#EBEBEB] hover:border-[#222222]'
                   }`}
                 >
                   Home
@@ -252,10 +252,10 @@ export default function Dashboard() {
                 <button
                   type="button"
                   onClick={() => setExpenseType(expenseType === 'Miscellaneous' ? '' : 'Miscellaneous')}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
                     expenseType === 'Miscellaneous' 
-                      ? 'bg-amber-100 text-amber-700 border-2 border-amber-500' 
-                      : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                      ? 'bg-[#222222] text-white border-2 border-[#222222]' 
+                      : 'bg-white text-[#222222] border-2 border-[#EBEBEB] hover:border-[#222222]'
                   }`}
                 >
                   Miscellaneous
@@ -263,35 +263,35 @@ export default function Dashboard() {
                 <button
                   type="button"
                   onClick={() => setExpenseType(expenseType === 'Tenant / Customer' ? '' : 'Tenant / Customer')}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
                     expenseType === 'Tenant / Customer' 
-                      ? 'bg-rose-100 text-rose-700 border-2 border-rose-500' 
-                      : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                      ? 'bg-[#222222] text-white border-2 border-[#222222]' 
+                      : 'bg-white text-[#222222] border-2 border-[#EBEBEB] hover:border-[#222222]'
                   }`}
                 >
                   Tenant / Customer
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Amount *</label>
+                  <label className="block text-sm font-bold text-[#222222] mb-1.5">Amount *</label>
                   <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
                     step="0.01"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Transaction Type *</label>
+                  <label className="block text-sm font-bold text-[#222222] mb-1.5">Transaction Type *</label>
                   <select
                     value={type}
                     onChange={(e) => setType(e.target.value as 'CREDIT' | 'DEBIT' | '')}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                     required
                   >
                     <option value="" disabled>Select type</option>
@@ -302,9 +302,9 @@ export default function Dashboard() {
               </div>
 
               {type && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-bold text-[#222222] mb-1.5">
                       {type === 'DEBIT' ? 'Paid To *' : 'Received From *'}
                     </label>
                     <input
@@ -312,32 +312,32 @@ export default function Dashboard() {
                       value={partyName}
                       onChange={(e) => setPartyName(e.target.value)}
                       placeholder={type === 'DEBIT' ? "e.g., Grocery Store" : "e.g., Employer"}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                       required
                     />
                   </div>
                   {partyName && (
                     <div className="animate-in fade-in slide-in-from-left-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Reason</label>
+                      <label className="block text-sm font-bold text-[#222222] mb-1.5">Reason</label>
                       <input
                         type="text"
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder="e.g., Monthly groceries"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                       />
                     </div>
                   )}
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Select Account *</label>
+                  <label className="block text-sm font-bold text-[#222222] mb-1.5">Select Account *</label>
                   <select
                     value={selectedAccountId}
                     onChange={(e) => setSelectedAccountId(Number(e.target.value) || '')}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                     required
                   >
                     <option value="" disabled>Select an account</option>
@@ -352,24 +352,24 @@ export default function Dashboard() {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+                  <label className="block text-sm font-bold text-[#222222] mb-1.5">Date & Time</label>
                   <input
                     type="datetime-local"
                     value={transactionDate}
                     onChange={(e) => setTransactionDate(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                     required
                   />
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <label className="block text-sm font-bold text-[#222222] mb-1.5">Category</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                   >
                     {CATEGORIES.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -377,11 +377,11 @@ export default function Dashboard() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                  <label className="block text-sm font-bold text-[#222222] mb-1.5">Payment Method</label>
                   <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value as 'Bank' | 'UPI')}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                   >
                     <option value="Bank">Bank</option>
                     <option value="UPI">UPI</option>
@@ -390,13 +390,13 @@ export default function Dashboard() {
               </div>
 
               {paymentMethod === 'UPI' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">UPI App *</label>
+                    <label className="block text-sm font-bold text-[#222222] mb-1.5">UPI App *</label>
                     <select
                       value={upiApp}
                       onChange={(e) => setUpiApp(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-4 py-3 border border-[#B0B0B0] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] outline-none transition-shadow"
                       required
                     >
                       <option value="" disabled>Select UPI App</option>
@@ -410,30 +410,30 @@ export default function Dashboard() {
               )}
 
               {status === 'error' && (
-                <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-lg flex items-center gap-2 text-sm">
-                  <AlertCircle className="w-4 h-4" />
+                <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl flex items-center gap-2 text-sm font-medium">
+                  <AlertCircle className="w-5 h-5" />
                   {errorMessage}
                 </div>
               )}
 
               {status === 'success' && (
-                <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="w-4 h-4" />
+                <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl flex items-center gap-2 text-sm font-medium">
+                  <CheckCircle2 className="w-5 h-5" />
                   Transaction saved successfully!
                 </div>
               )}
 
-              <div className="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
+              <div className="mt-8 flex justify-end gap-3 pt-6 border-t border-[#EBEBEB]">
                 <button
                   onClick={() => setIsAddingManual(false)}
-                  className="px-6 py-2 text-gray-700 hover:bg-gray-100 font-medium rounded-lg transition-colors"
+                  className="px-6 py-3 text-[#222222] hover:bg-neutral-100 font-bold rounded-xl transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveManual}
                   disabled={!amount || !type || !partyName || !selectedAccountId || (paymentMethod === 'UPI' && !upiApp) || status === 'success'}
-                  className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 bg-[#222222] text-white font-bold rounded-xl hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Save Transaction
                 </button>

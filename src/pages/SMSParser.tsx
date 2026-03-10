@@ -110,26 +110,26 @@ export default function SMSParser() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <MessageSquareText className="w-8 h-8 text-indigo-600" />
+        <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <MessageSquareText className="w-8 h-8 text-[#222222]" />
         </div>
-        <h1 className="text-2xl font-bold text-gray-900">Parse Bank SMS</h1>
-        <p className="text-gray-500 mt-2">Paste your bank SMS here to automatically extract transaction details.</p>
+        <h1 className="text-2xl font-bold text-[#222222]">Parse Bank SMS</h1>
+        <p className="text-[#717171] mt-2">Paste your bank SMS here to automatically extract transaction details.</p>
       </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <label className="block text-sm font-medium text-gray-700 mb-2">SMS Message</label>
+      <div className="bg-white p-6 rounded-[24px] shadow-[0_6px_16px_rgba(0,0,0,0.04)] border border-[#EBEBEB]">
+        <label className="block text-sm font-bold text-[#222222] mb-2">SMS Message</label>
         <textarea
           value={smsText}
           onChange={(e) => setSmsText(e.target.value)}
           placeholder="e.g., Rs.500 debited from A/c XX1234 on 05-Mar. Avl Bal Rs.20,000"
-          className="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+          className="w-full h-32 px-4 py-3 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222] resize-none"
         />
         <div className="mt-4 flex justify-end">
           <button
             onClick={handleParse}
             disabled={!smsText.trim()}
-            className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-[#222222] text-white font-bold rounded-xl hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Extract Details
           </button>
@@ -137,17 +137,17 @@ export default function SMSParser() {
       </div>
 
       {parsedData && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-indigo-100 border-t-4 border-t-indigo-500 animate-in fade-in slide-in-from-bottom-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">Extracted Details</h2>
+        <div className="bg-white p-6 rounded-[24px] shadow-[0_6px_16px_rgba(0,0,0,0.04)] border border-[#EBEBEB] animate-in fade-in slide-in-from-bottom-4">
+          <h2 className="text-lg font-bold text-[#222222] mb-6">Extracted Details</h2>
           
           <div className="flex flex-wrap gap-2 mb-6">
             <button
               type="button"
               onClick={() => setExpenseType(expenseType === 'Personal' ? '' : 'Personal')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${
                 expenseType === 'Personal' 
-                  ? 'bg-indigo-100 text-indigo-700 border-2 border-indigo-500' 
-                  : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                  ? 'bg-neutral-100 text-[#222222] border-2 border-[#222222]' 
+                  : 'bg-white text-[#717171] border-2 border-[#EBEBEB] hover:border-[#222222]'
               }`}
             >
               Personal
@@ -155,10 +155,10 @@ export default function SMSParser() {
             <button
               type="button"
               onClick={() => setExpenseType(expenseType === 'Home' ? '' : 'Home')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${
                 expenseType === 'Home' 
-                  ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-500' 
-                  : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                  ? 'bg-emerald-50 text-emerald-700 border-2 border-emerald-500' 
+                  : 'bg-white text-[#717171] border-2 border-[#EBEBEB] hover:border-[#222222]'
               }`}
             >
               Home
@@ -166,10 +166,10 @@ export default function SMSParser() {
             <button
               type="button"
               onClick={() => setExpenseType(expenseType === 'Miscellaneous' ? '' : 'Miscellaneous')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${
                 expenseType === 'Miscellaneous' 
-                  ? 'bg-amber-100 text-amber-700 border-2 border-amber-500' 
-                  : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                  ? 'bg-amber-50 text-amber-700 border-2 border-amber-500' 
+                  : 'bg-white text-[#717171] border-2 border-[#EBEBEB] hover:border-[#222222]'
               }`}
             >
               Miscellaneous
@@ -177,10 +177,10 @@ export default function SMSParser() {
             <button
               type="button"
               onClick={() => setExpenseType(expenseType === 'Tenant / Customer' ? '' : 'Tenant / Customer')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-full text-sm font-bold transition-colors ${
                 expenseType === 'Tenant / Customer' 
-                  ? 'bg-rose-100 text-rose-700 border-2 border-rose-500' 
-                  : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                  ? 'bg-rose-50 text-rose-700 border-2 border-rose-500' 
+                  : 'bg-white text-[#717171] border-2 border-[#EBEBEB] hover:border-[#222222]'
               }`}
             >
               Tenant / Customer
@@ -189,23 +189,23 @@ export default function SMSParser() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Amount *</label>
+              <label className="block text-sm font-bold text-[#222222] mb-1">Amount *</label>
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
                 step="0.01"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Transaction Type *</label>
+              <label className="block text-sm font-bold text-[#222222] mb-1">Transaction Type *</label>
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as 'CREDIT' | 'DEBIT' | '')}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                 required
               >
                 <option value="" disabled>Select type</option>
@@ -218,7 +218,7 @@ export default function SMSParser() {
           {type && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-bold text-[#222222] mb-1">
                   {type === 'DEBIT' ? 'Paid To *' : 'Received From *'}
                 </label>
                 <input
@@ -226,19 +226,19 @@ export default function SMSParser() {
                   value={partyName}
                   onChange={(e) => setPartyName(e.target.value)}
                   placeholder={type === 'DEBIT' ? "e.g., Grocery Store" : "e.g., Employer"}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                   required
                 />
               </div>
               {partyName && (
                 <div className="animate-in fade-in slide-in-from-left-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Reason</label>
+                  <label className="block text-sm font-bold text-[#222222] mb-1">Reason</label>
                   <input
                     type="text"
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     placeholder="e.g., Monthly groceries"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                   />
                 </div>
               )}
@@ -247,31 +247,31 @@ export default function SMSParser() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Account Last 4</label>
-              <div className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 font-mono">
+              <label className="block text-sm font-bold text-[#222222] mb-1">Account Last 4</label>
+              <div className="px-4 py-2 bg-neutral-50 border border-[#EBEBEB] rounded-xl text-[#222222] font-mono">
                 {parsedData.accountLast4 ? `**** ${parsedData.accountLast4}` : 'Not found'}
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Available Balance</label>
-              <div className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-900">
+              <label className="block text-sm font-bold text-[#222222] mb-1">Available Balance</label>
+              <div className="px-4 py-2 bg-neutral-50 border border-[#EBEBEB] rounded-xl text-[#222222]">
                 {parsedData.balance ? `₹${parsedData.balance.toLocaleString('en-IN')}` : 'Not found'}
               </div>
             </div>
           </div>
 
-          <hr className="border-gray-100 my-6" />
+          <hr className="border-[#EBEBEB] my-6" />
           
-          <h3 className="text-md font-medium text-gray-900 mb-4">Complete Transaction</h3>
+          <h3 className="text-md font-bold text-[#222222] mb-4">Complete Transaction</h3>
           
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Account *</label>
+                <label className="block text-sm font-bold text-[#222222] mb-1">Select Account *</label>
                 <select
                   value={selectedAccountId}
                   onChange={(e) => setSelectedAccountId(Number(e.target.value) || '')}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                   required
                 >
                   <option value="" disabled>Select an account</option>
@@ -286,12 +286,12 @@ export default function SMSParser() {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+                <label className="block text-sm font-bold text-[#222222] mb-1">Date & Time</label>
                 <input
                   type="datetime-local"
                   value={transactionDate}
                   onChange={(e) => setTransactionDate(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                   required
                 />
               </div>
@@ -299,11 +299,11 @@ export default function SMSParser() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <label className="block text-sm font-bold text-[#222222] mb-1">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                 >
                   {CATEGORIES.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
@@ -311,11 +311,11 @@ export default function SMSParser() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                <label className="block text-sm font-bold text-[#222222] mb-1">Payment Method</label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value as 'Bank' | 'UPI')}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                 >
                   <option value="Bank">Bank</option>
                   <option value="UPI">UPI</option>
@@ -326,11 +326,11 @@ export default function SMSParser() {
             {paymentMethod === 'UPI' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">UPI App *</label>
+                  <label className="block text-sm font-bold text-[#222222] mb-1">UPI App *</label>
                   <select
                     value={upiApp}
                     onChange={(e) => setUpiApp(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-4 py-2 border border-[#EBEBEB] rounded-xl focus:ring-2 focus:ring-[#222222] focus:border-[#222222]"
                     required
                   >
                     <option value="" disabled>Select UPI App</option>
@@ -344,14 +344,14 @@ export default function SMSParser() {
             )}
 
             {status === 'error' && (
-              <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-lg flex items-center gap-2 text-sm">
+              <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl flex items-center gap-2 text-sm font-bold">
                 <AlertCircle className="w-4 h-4" />
                 {errorMessage}
               </div>
             )}
 
             {status === 'success' && (
-              <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg flex items-center gap-2 text-sm">
+              <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl flex items-center gap-2 text-sm font-bold">
                 <CheckCircle2 className="w-4 h-4" />
                 Transaction saved successfully! Redirecting...
               </div>
@@ -360,14 +360,14 @@ export default function SMSParser() {
             <div className="mt-6 flex justify-end gap-3">
               <button
                 onClick={() => setParsedData(null)}
-                className="px-6 py-2 text-gray-700 hover:bg-gray-100 font-medium rounded-lg transition-colors"
+                className="px-6 py-2 text-[#222222] hover:bg-neutral-100 font-bold rounded-xl transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={!amount || !type || !partyName || !selectedAccountId || (paymentMethod === 'UPI' && !upiApp) || status === 'success'}
-                className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-[#222222] text-white font-bold rounded-xl hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Save Transaction
               </button>
