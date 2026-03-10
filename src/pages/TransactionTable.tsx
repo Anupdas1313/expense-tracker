@@ -388,10 +388,29 @@ export default function TransactionTable() {
     }
 
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    if (isIOS) {
-      const dataUrl = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent);
-      const newWin = window.open(dataUrl, '_blank');
-      if (!newWin) window.location.href = dataUrl;
+    const isAndroid = /Android/.test(navigator.userAgent);
+    
+    if (isIOS || isAndroid) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const dataUrl = reader.result as string;
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = fileName;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Fallback if click doesn't work in some WebViews
+        setTimeout(() => {
+          if (isIOS) {
+            const newWin = window.open(dataUrl, '_blank');
+            if (!newWin) window.location.href = dataUrl;
+          }
+        }, 100);
+      };
+      reader.readAsDataURL(blob);
     } else {
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
@@ -460,10 +479,25 @@ export default function TransactionTable() {
     }
 
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    if (isIOS) {
+    const isAndroid = /Android/.test(navigator.userAgent);
+    
+    if (isIOS || isAndroid) {
       const dataUrl = doc.output('datauristring');
-      const newWin = window.open(dataUrl, '_blank');
-      if (!newWin) window.location.href = dataUrl;
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = fileName;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Fallback if click doesn't work
+      setTimeout(() => {
+        if (isIOS) {
+          const newWin = window.open(dataUrl, '_blank');
+          if (!newWin) window.location.href = dataUrl;
+        }
+      }, 100);
     } else {
       doc.save(fileName);
     }
