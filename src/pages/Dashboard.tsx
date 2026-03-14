@@ -632,7 +632,7 @@ export default function Dashboard() {
 
 
               {/* Compact Actions inside the form */}
-              <div className="pt-2 space-y-3">
+              <div className="pt-2 space-y-2">
                 {status === 'success' && (
                   <div className="flex items-center justify-center gap-2 py-1 text-emerald-500 font-bold text-xs animate-in fade-in slide-in-from-bottom-1">
                     <CheckCircle2 className="w-3.5 h-3.5" />
@@ -649,14 +649,14 @@ export default function Dashboard() {
                 <div className="flex gap-2">
                   <button 
                     onClick={closeMenu}
-                    className="flex-1 py-3 rounded-xl font-bold text-[14px] text-[#A0A0A5] bg-[#1C1C22] border border-white/5 hover:bg-[#2C2C34] transition-colors"
+                    className="flex-1 py-2.5 rounded-xl font-bold text-[13px] text-[#A0A0A5] bg-[#1C1C22] border border-white/5 hover:bg-[#2C2C34] transition-colors"
                   >
                     Cancel
                   </button>
                   <button 
                     onClick={handleSaveManual}
                     disabled={!amount || !type || !selectedAccountId || (type !== 'TRANSFER' && !expenseType) || (type === 'TRANSFER' && !toAccountId) || (paymentMethod === 'UPI' && !upiApp) || status === 'success'}
-                    className={`flex-[2] py-3 rounded-xl font-extrabold text-[14px] transition-all transform active:scale-[0.98] ${
+                    className={`flex-[2] py-2.5 rounded-xl font-extrabold text-[13px] transition-all transform active:scale-[0.98] ${
                       (!amount || !type || !selectedAccountId || (type !== 'TRANSFER' && !expenseType) || (type === 'TRANSFER' && !toAccountId) || (paymentMethod === 'UPI' && !upiApp))
                       ? 'bg-[#2C2C34] text-[#5A5A62] cursor-not-allowed opacity-50'
                       : 'bg-[#3B3B98] text-white shadow-lg hover:bg-[#4545B0]'
