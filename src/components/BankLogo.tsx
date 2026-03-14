@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BANK_LOGOS: Record<string, string> = {
-  'SBI': 'https://upload.wikimedia.org/wikipedia/commons/c/cc/State_Bank_of_India_logo.svg',
+  'SBI': 'https://vignette.wikia.nocookie.net/logopedia/images/b/b5/SBI_Logo.png/revision/latest?cb=20150912140411',
   'HDFC': 'https://upload.wikimedia.org/wikipedia/commons/2/28/HDFC_Bank_Logo.svg',
   'ICICI': 'https://upload.wikimedia.org/wikipedia/commons/1/12/ICICI_Bank_Logo.svg',
   'Axis': 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Axis_Bank_logo.svg',
