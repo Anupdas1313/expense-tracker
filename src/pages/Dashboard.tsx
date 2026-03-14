@@ -192,13 +192,21 @@ export default function Dashboard() {
           <p className="text-sm font-semibold text-[#717171] dark:text-[#A0A0A0] tracking-wide">{greeting},</p>
           <h1 className="text-2xl font-extrabold text-[#222222] dark:text-[#F7F7F7] leading-tight">Anup 👋</h1>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <button
             onClick={() => setIsAddingManual(true)}
             title="Add Transaction"
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-100 dark:bg-[#0C0C0F] text-[#222222] dark:text-[#F7F7F7] hover:bg-neutral-200 dark:hover:bg-[#15151A] transition-colors border border-transparent dark:border-[#1A1A1E]"
+            className="hidden sm:flex h-10 px-5 items-center gap-2 justify-center rounded-[14px] bg-[#3B3B98] hover:bg-[#2C2C7A] text-white transition-colors shadow-md font-bold text-sm"
           >
-            <Search className="w-5 h-5" />
+            <Plus className="w-4 h-4" />
+            Add Transaction
+          </button>
+          <button
+            onClick={() => setIsAddingManual(true)}
+            title="Add Transaction"
+            className="sm:hidden w-10 h-10 flex items-center justify-center rounded-[14px] bg-[#3B3B98] text-white shadow-md active:scale-95 transition-transform"
+          >
+            <Plus className="w-5 h-5" />
           </button>
           <div
             title="Anup"
@@ -354,68 +362,79 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Manual Entry Modal */}
+      {/* Manual Entry Modal - Mobile Bottom Sheet Redesign */}
       {isAddingManual && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#111111] rounded-[24px] shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-[#EBEBEB] dark:border-[#222222] flex justify-between items-center sticky top-0 bg-white dark:bg-[#111111] z-10">
-              <h2 className="text-xl font-bold text-[#222222] dark:text-[#F7F7F7]">Manual Transaction Entry</h2>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end md:items-center justify-center z-[100] md:p-4 animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-[#0C0C0F] w-full md:max-w-2xl rounded-t-[32px] md:rounded-[24px] shadow-2xl max-h-[90vh] flex flex-col animate-in slide-in-from-bottom-5 duration-300">
+            <div className="p-5 md:p-6 border-b border-[#EBEBEB] dark:border-[#1A1A1E] flex justify-between items-center sticky top-0 bg-white dark:bg-[#0C0C0F] z-10 rounded-t-[32px] md:rounded-[24px]">
+              <h2 className="text-xl font-extrabold text-[#222222] dark:text-[#F7F7F7]">Add Transaction</h2>
               <button
                 onClick={closeMenu}
-                className="text-[#717171] dark:text-[#A0A0A0] hover:text-[#222222] dark:hover:text-[#F7F7F7] transition-colors p-2 hover:bg-neutral-100 dark:hover:bg-[#222222] dark:bg-[#1A1A1A] rounded-full"
+                className="text-[#717171] dark:text-[#A0A0A0] hover:text-[#222222] dark:hover:text-[#F7F7F7] transition-colors p-2 hover:bg-neutral-200 dark:hover:bg-[#1A1A1E] rounded-full bg-neutral-100 dark:bg-[#15151A]"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
             
-            <div className="p-6 space-y-5">
-              <div className="flex flex-wrap gap-2 mb-4">
-                {appCategories.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setExpenseType(expenseType === cat ? '' : cat)}
-                    className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-                      expenseType === cat 
-                        ? 'bg-[#222222] dark:bg-[#F7F7F7] text-white dark:text-[#111111] border-2 border-[#222222]' 
-                        : 'bg-white dark:bg-[#111111] text-[#222222] dark:text-[#F7F7F7] border-2 border-[#EBEBEB] dark:border-[#222222] hover:border-[#222222]'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
+            <div className="p-5 md:p-6 space-y-6 overflow-y-auto w-full">
+              {/* Transaction Type Segmented Control */}
+              <div className="flex p-1 bg-neutral-100 dark:bg-[#15151A] rounded-[16px]">
+                <button 
+                  type="button"
+                  onClick={() => setType('DEBIT')} 
+                  className={`flex-1 py-3 text-sm font-bold rounded-[12px] transition-all ${type === 'DEBIT' ? 'bg-white dark:bg-[#2A2A35] shadow-sm text-rose-500' : 'text-[#717171] dark:text-[#A0A0A0]'}`}
+                >
+                  Paid To (Debit)
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setType('CREDIT')} 
+                  className={`flex-1 py-3 text-sm font-bold rounded-[12px] transition-all ${type === 'CREDIT' ? 'bg-white dark:bg-[#2A2A35] shadow-sm text-emerald-500' : 'text-[#717171] dark:text-[#A0A0A0]'}`}
+                >
+                  Received (Credit)
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Amount *</label>
+              {/* Large Amount Input */}
+              <div>
+                <label className="block text-xs font-bold text-[#717171] dark:text-[#A0A0A0] uppercase tracking-wider mb-2 text-center">Amount</label>
+                <div className="relative max-w-xs mx-auto">
+                  <span className="absolute left-6 top-1/2 -translate-y-1/2 text-3xl font-bold text-[#717171] dark:text-[#A0A0A0]">₹</span>
                   <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
                     step="0.01"
-                    className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
+                    className="w-full pl-12 pr-4 py-4 bg-transparent border-b-2 border-[#EBEBEB] dark:border-[#1A1A1E] text-center text-5xl font-black text-[#222222] dark:text-[#F7F7F7] focus:border-[#3B3B98] dark:focus:border-[#6C6CF0] outline-none transition-colors"
                     required
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Transaction Type *</label>
-                  <select
-                    value={type}
-                    onChange={(e) => setType(e.target.value as 'CREDIT' | 'DEBIT' | '')}
-                    className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
-                    required
-                  >
-                    <option value="" disabled>Select type</option>
-                    <option value="DEBIT">Paid To (Debit)</option>
-                    <option value="CREDIT">Received From (Credit)</option>
-                  </select>
+              </div>
+
+              {/* App Category Pills */}
+              <div>
+                <label className="block text-xs font-bold text-[#717171] dark:text-[#A0A0A0] uppercase tracking-wider mb-3">Expense Type</label>
+                <div className="flex flex-wrap gap-2">
+                  {appCategories.map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setExpenseType(expenseType === cat ? '' : cat)}
+                      className={`px-4 py-2.5 rounded-[14px] text-sm font-bold transition-all ${
+                        expenseType === cat 
+                          ? 'bg-[#3B3B98] text-white shadow-md scale-105' 
+                          : 'bg-neutral-100 dark:bg-[#15151A] text-[#717171] dark:text-[#A0A0A0] hover:bg-neutral-200 dark:hover:bg-[#2A2A35]'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
                 </div>
               </div>
 
               {type && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">
                       {type === 'DEBIT' ? 'Paid To *' : 'Received From *'}
@@ -425,19 +444,19 @@ export default function Dashboard() {
                       value={partyName}
                       onChange={(e) => setPartyName(e.target.value)}
                       placeholder={type === 'DEBIT' ? "e.g., Grocery Store" : "e.g., Employer"}
-                      className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
+                      className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7]"
                       required
                     />
                   </div>
                   {partyName && (
-                    <div className="animate-in fade-in slide-in-from-left-2">
-                      <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Reason</label>
+                    <div className="animate-in fade-in slide-in-from-top-2">
+                      <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Reason (Optional)</label>
                       <input
                         type="text"
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder="e.g., Monthly groceries"
-                        className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
+                        className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7]"
                       />
                     </div>
                   )}
@@ -450,7 +469,7 @@ export default function Dashboard() {
                   <select
                     value={selectedAccountId}
                     onChange={(e) => setSelectedAccountId(Number(e.target.value) || '')}
-                    className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
+                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7] appearance-none"
                     required
                   >
                     <option value="" disabled>Select an account</option>
@@ -460,17 +479,14 @@ export default function Dashboard() {
                       </option>
                     ))}
                   </select>
-                  {accounts.length === 0 && (
-                    <p className="text-sm text-rose-500 mt-1">Please add an account first from the Accounts tab.</p>
-                  )}
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Date & Time</label>
+                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Date</label>
                   <input
                     type="datetime-local"
                     value={transactionDate}
                     onChange={(e) => setTransactionDate(e.target.value)}
-                    className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
+                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7]"
                     required
                   />
                 </div>
@@ -482,7 +498,7 @@ export default function Dashboard() {
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
+                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7] appearance-none"
                   >
                     {CATEGORIES.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -494,7 +510,7 @@ export default function Dashboard() {
                   <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value as 'Bank' | 'UPI')}
-                    className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
+                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7] appearance-none"
                   >
                     <option value="Bank">Bank</option>
                     <option value="UPI">UPI</option>
@@ -503,50 +519,42 @@ export default function Dashboard() {
               </div>
 
               {paymentMethod === 'UPI' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">UPI App *</label>
-                    <select
-                      value={upiApp}
-                      onChange={(e) => setUpiApp(e.target.value)}
-                      className="w-full px-4 py-3 border border-[#B0B0B0] dark:border-[#444444] rounded-xl focus:ring-2 focus:ring-[#222222] dark:focus:ring-[#F7F7F7] focus:border-[#222222] dark:focus:border-[#F7F7F7] outline-none transition-shadow"
-                      required
-                    >
-                      <option value="" disabled>Select UPI App</option>
-                      <option value="GPay">GPay</option>
-                      <option value="PhonePe">PhonePe</option>
-                      <option value="Paytm">Paytm</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
+                <div className="animate-in fade-in slide-in-from-top-2">
+                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">UPI App *</label>
+                  <select
+                    value={upiApp}
+                    onChange={(e) => setUpiApp(e.target.value)}
+                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7] appearance-none"
+                    required
+                  >
+                    <option value="" disabled>Select UPI App</option>
+                    <option value="GPay">GPay</option>
+                    <option value="PhonePe">PhonePe</option>
+                    <option value="Paytm">Paytm</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
               )}
 
               {status === 'error' && (
-                <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl flex items-center gap-2 text-sm font-medium">
-                  <AlertCircle className="w-5 h-5" />
+                <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded-[16px] flex items-center gap-3 text-sm font-bold">
+                  <AlertCircle className="w-5 h-5 shrink-0" />
                   {errorMessage}
                 </div>
               )}
 
               {status === 'success' && (
-                <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl flex items-center gap-2 text-sm font-medium">
-                  <CheckCircle2 className="w-5 h-5" />
+                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded-[16px] flex items-center gap-3 text-sm font-bold">
+                  <CheckCircle2 className="w-5 h-5 shrink-0" />
                   Transaction saved successfully!
                 </div>
               )}
 
-              <div className="mt-8 flex justify-end gap-3 pt-6 border-t border-[#EBEBEB] dark:border-[#222222]">
-                <button
-                  onClick={closeMenu}
-                  className="px-6 py-3 text-[#222222] dark:text-[#F7F7F7] hover:bg-neutral-100 dark:hover:bg-[#222222] dark:bg-[#1A1A1A] font-bold rounded-xl transition-colors"
-                >
-                  Cancel
-                </button>
+              <div className="pt-4 pb-safe mt-6">
                 <button
                   onClick={handleSaveManual}
                   disabled={!amount || !type || !partyName || !selectedAccountId || (paymentMethod === 'UPI' && !upiApp) || status === 'success'}
-                  className="px-6 py-3 bg-[#222222] dark:bg-[#F7F7F7] text-white dark:text-[#111111] font-bold rounded-xl hover:bg-black dark:hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-gradient-to-r from-[#3B3B98] to-[#6C6CF0] text-white font-extrabold text-lg rounded-[20px] shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   Save Transaction
                 </button>

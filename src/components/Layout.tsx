@@ -67,15 +67,6 @@ export default function Layout() {
             );
           })}
         </nav>
-        <div className="p-4 border-t border-[#EBEBEB] dark:border-[#1A1A1E]">
-          <Link
-            to="/?add=true"
-            className="flex items-center justify-center gap-2 w-full py-3 bg-[#222222] dark:bg-[#F7F7F7] text-white dark:text-[#111111] rounded-xl font-bold hover:bg-black dark:hover:bg-neutral-200 transition-colors shadow-sm"
-          >
-            <Plus className="w-5 h-5" />
-            Add Transaction
-          </Link>
-        </div>
       </aside>
 
       {/* Main Content */}
@@ -106,16 +97,6 @@ export default function Layout() {
               </Link>
             );
           })}
-          
-          {/* Floating Add Button Wrapper */}
-          <div className="flex-1 flex justify-center h-full items-start">
-            <Link
-              to="/?add=true"
-              className="absolute -top-5 w-14 h-14 bg-gradient-to-tr from-[#3B3B98] to-[#6C6CF0] text-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-[#0C0C0F] transform hover:scale-105 active:scale-95 transition-all outline-none"
-            >
-              <Plus className="w-6 h-6" />
-            </Link>
-          </div>
 
           {mainNavItems.slice(2).map((item) => {
             const isActive = location.pathname === item.path;
