@@ -66,6 +66,14 @@ export default function Layout() {
               </Link>
             );
           })}
+          
+          <Link
+            to="/?add=true"
+            className="mt-6 flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold bg-[#3B3B98] text-white shadow-lg shadow-indigo-500/20 hover:bg-[#4545B0] transition-all transform active:scale-95"
+          >
+            <Plus className="w-5 h-5" />
+            Add Transaction
+          </Link>
         </nav>
       </aside>
 
@@ -93,10 +101,22 @@ export default function Layout() {
                 )}
               >
                 <Icon className={cn('w-6 h-6', isActive ? 'text-[#222222] dark:text-[#F7F7F7]' : 'text-[#B0B0B0] dark:text-[#55555E]')} />
-                <span className="text-[10px] font-semibold">{item.name}</span>
+                <span className="text-[10px] font-bold">{item.name}</span>
               </Link>
             );
           })}
+
+          {/* Central Add Button */}
+          <div className="flex-1 flex justify-center -translate-y-4">
+            <Link
+              to="/?add=true"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-14 h-14 bg-[#3B3B98] rounded-full flex items-center justify-center text-white shadow-[0_4px_20px_rgba(59,59,152,0.4)] border-4 border-white dark:border-[#0C0C0F] transition-transform active:scale-90"
+              aria-label="Add Transaction"
+            >
+              <Plus className="w-7 h-7" />
+            </Link>
+          </div>
 
           {mainNavItems.slice(2).map((item) => {
             const isActive = location.pathname === item.path;
@@ -112,7 +132,7 @@ export default function Layout() {
                 )}
               >
                 <Icon className={cn('w-6 h-6', isActive ? 'text-[#222222] dark:text-[#F7F7F7]' : 'text-[#B0B0B0] dark:text-[#55555E]')} />
-                <span className="text-[10px] font-semibold">{item.name}</span>
+                <span className="text-[10px] font-bold">{item.name}</span>
               </Link>
             );
           })}
@@ -128,7 +148,7 @@ export default function Layout() {
             )}
           >
             <MoreHorizontal className={cn('w-6 h-6', isMobileMenuOpen || moreNavItems.some(item => location.pathname === item.path) ? 'text-[#222222] dark:text-[#F7F7F7]' : 'text-[#B0B0B0] dark:text-[#55555E]')} />
-            <span className="text-[10px] font-semibold">More</span>
+            <span className="text-[10px] font-bold">More</span>
           </button>
         </nav>
       </div>

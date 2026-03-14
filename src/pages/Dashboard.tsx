@@ -238,21 +238,6 @@ export default function Dashboard() {
           <h1 className="text-2xl font-extrabold text-[#222222] dark:text-[#F7F7F7] leading-tight">Anup 👋</h1>
         </div>
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setIsAddingManual(true)}
-            title="Add Transaction"
-            className="hidden sm:flex h-10 px-5 items-center gap-2 justify-center rounded-[14px] bg-[#3B3B98] hover:bg-[#2C2C7A] text-white transition-colors shadow-md font-bold text-sm"
-          >
-            <Plus className="w-4 h-4" />
-            Add Transaction
-          </button>
-          <button
-            onClick={() => setIsAddingManual(true)}
-            title="Add Transaction"
-            className="sm:hidden w-10 h-10 flex items-center justify-center rounded-[14px] bg-[#3B3B98] text-white shadow-md active:scale-95 transition-transform"
-          >
-            <Plus className="w-5 h-5" />
-          </button>
           <div
             title="Anup"
             className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3B3B98] to-[#6C6CF0] flex items-center justify-center text-white font-bold text-sm select-none shadow-md cursor-pointer"
