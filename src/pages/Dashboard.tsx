@@ -405,17 +405,17 @@ export default function Dashboard() {
             <div className="space-y-1">
               <p className="text-[10px] font-bold text-[#A0A0A5] uppercase tracking-wider px-1">Tags</p>
               <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 pb-1">
-                {appCategories.map(cat => (
+                {['Personal', 'Home'].map(tagName => (
                   <button 
-                    key={cat} 
-                    onClick={() => setExpenseType(expenseType === cat ? '' : cat)}
+                    key={tagName} 
+                    onClick={() => setExpenseType(expenseType === tagName ? '' : tagName)}
                     className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all border whitespace-nowrap ${
-                      expenseType === cat 
+                      expenseType === tagName 
                         ? 'bg-[#6C6CF0] text-white border-transparent' 
                         : 'bg-[#1C1C22] border-white/5 text-[#A0A0A5]'
                     }`}
                   >
-                    #{cat}
+                    #{tagName}
                   </button>
                 ))}
               </div>
