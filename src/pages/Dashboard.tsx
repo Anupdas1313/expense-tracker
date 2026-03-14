@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../lib/db';
-import { ArrowUpRight, ArrowDownRight, Wallet, Plus, X, AlertCircle, CheckCircle2, Search, ChevronDown, Landmark, Smartphone } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, Wallet, Plus, X, AlertCircle, CheckCircle2, Search, ChevronDown, Landmark, Smartphone, ArrowLeft, Calendar, Clock, Calculator, MoreHorizontal, User, AlignLeft, Hash, Paperclip, Save, ChevronRight } from 'lucide-react';
 import { format, startOfMonth, startOfYear, isToday, isYesterday } from 'date-fns';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useState, useMemo, useEffect } from 'react';
@@ -363,193 +363,269 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Manual Entry Modal - Full Screen Mobile Redesign */}
+      {/* Manual Entry Modal - Native Android Clone Redesign */}
       {isAddingManual && createPortal(
-        <div className="fixed inset-0 bg-white dark:bg-[#0C0C0F] text-[#222222] dark:text-[#F7F7F7] md:bg-black/50 md:backdrop-blur-sm z-[9999] flex flex-col md:items-center md:justify-center md:p-4 animate-in slide-in-from-bottom-5 md:fade-in md:slide-in-from-bottom-0 duration-300">
-          <div className="bg-white dark:bg-[#0C0C0F] w-full h-full md:h-auto md:max-h-[90vh] md:max-w-2xl md:rounded-[24px] shadow-2xl flex flex-col pt-safe-top">
-            <div className="p-4 md:p-6 border-b border-[#EBEBEB] dark:border-[#1A1A1E] flex justify-between items-center bg-white dark:bg-[#0C0C0F] z-10 md:rounded-t-[24px] shrink-0">
-              <h2 className="text-xl font-extrabold text-[#222222] dark:text-[#F7F7F7]">Add Transaction</h2>
-              <button
-                onClick={closeMenu}
-                className="text-[#717171] dark:text-[#A0A0A0] hover:text-[#222222] dark:hover:text-[#F7F7F7] transition-colors p-2 hover:bg-neutral-200 dark:hover:bg-[#1A1A1E] rounded-full bg-neutral-100 dark:bg-[#15151A]"
+        <div className="fixed inset-0 bg-[#0F0F13] text-white z-[9999] flex flex-col animate-in fade-in slide-in-from-bottom-5 duration-300 font-sans">
+          {/* Header */}
+          <div className="flex items-center px-2 py-4 gap-2 shrink-0 pt-safe-top">
+            <button onClick={closeMenu} className="p-2 rounded-full hover:bg-white/10 transition-colors active:bg-white/20">
+              <ArrowLeft className="w-6 h-6 text-[#E1E1E5]" />
+            </button>
+            <h2 className="text-xl font-medium tracking-wide text-[#F7F7F7]">Add transaction</h2>
+          </div>
+
+          <div className="flex-1 overflow-y-auto w-full px-5 pb-28 space-y-6 scrollbar-hide no-scrollbar">
+            {/* Segmented Control */}
+            <div className="flex bg-[#1C1C22] p-1 rounded-full w-full max-w-sm mx-auto mt-2">
+              <button 
+                type="button"
+                onClick={() => setType('DEBIT')}
+                className={`flex-1 py-2 px-4 rounded-full text-sm font-medium transition-colors ${type === 'DEBIT' ? 'bg-[#2A2A32] text-white shadow-sm' : 'text-neutral-400 hover:text-neutral-300'}`}
               >
-                <X className="w-5 h-5" />
+                Expense
+              </button>
+              <button 
+                type="button"
+                onClick={() => setType('CREDIT')}
+                className={`flex-1 py-2 px-4 rounded-full text-sm font-medium transition-colors ${type === 'CREDIT' ? 'bg-[#2A2A32] text-white shadow-sm' : 'text-neutral-400 hover:text-neutral-300'}`}
+              >
+                Income
+              </button>
+              <button disabled className="flex-1 py-2 px-4 rounded-full text-sm font-medium text-neutral-500 opacity-50 cursor-not-allowed">
+                Transfer
               </button>
             </div>
-            
-            <div className="flex-1 p-4 md:p-6 space-y-5 overflow-y-auto w-full flex flex-col">
-              {/* Transaction Type Segmented Control */}
-              <div className="flex p-1 bg-neutral-100 dark:bg-[#15151A] rounded-[14px]">
-                <button 
-                  type="button"
-                  onClick={() => setType('DEBIT')} 
-                  className={`flex-1 py-2 text-xs font-bold rounded-[10px] transition-all ${type === 'DEBIT' ? 'bg-white dark:bg-[#2A2A35] shadow-sm text-rose-500' : 'text-[#717171] dark:text-[#A0A0A0]'}`}
-                >
-                  Paid To (Debit)
-                </button>
-                <button 
-                  type="button"
-                  onClick={() => setType('CREDIT')} 
-                  className={`flex-1 py-2 text-xs font-bold rounded-[10px] transition-all ${type === 'CREDIT' ? 'bg-white dark:bg-[#2A2A35] shadow-sm text-emerald-500' : 'text-[#717171] dark:text-[#A0A0A0]'}`}
-                >
-                  Received (Credit)
-                </button>
-              </div>
 
-              {/* Amount Row (Compacted) */}
-              <div className="flex items-center justify-between bg-neutral-50 dark:bg-[#15151A] p-3 px-4 rounded-[16px]">
-                <span className="text-xs font-bold text-[#717171] dark:text-[#A0A0A0] uppercase tracking-wider">Amount</span>
-                <div className="relative w-1/2 flex items-center justify-end">
-                  <span className="text-xl font-bold text-[#717171] dark:text-[#A0A0A0] mr-2">₹</span>
-                  <input
+            {/* Date and Time Row */}
+            <div className="flex items-center gap-8 py-2">
+              <label className="flex items-center gap-3 text-[#E1E1E5] relative cursor-pointer group flex-1">
+                <Calendar className="w-5 h-5 text-[#A0A0A5]" />
+                <span className="text-[15px] font-medium tracking-wide">{format(new Date(transactionDate), 'dd MMM yyyy')}</span>
+                <input 
+                  type="date" 
+                  value={transactionDate.split('T')[0]} 
+                  onChange={(e) => setTransactionDate(e.target.value + 'T' + transactionDate.split('T')[1])}
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full custom-date-input"
+                />
+              </label>
+              <label className="flex items-center gap-3 text-[#E1E1E5] relative cursor-pointer group flex-1">
+                <Clock className="w-5 h-5 text-[#A0A0A5]" />
+                <span className="text-[15px] font-medium tracking-wide">{format(new Date(transactionDate), 'hh:mm a')}</span>
+                <input 
+                  type="time" 
+                  value={transactionDate.split('T')[1]} 
+                  onChange={(e) => setTransactionDate(transactionDate.split('T')[0] + 'T' + e.target.value)}
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full custom-time-input"
+                />
+              </label>
+            </div>
+
+            {/* Amount */}
+            <div className="py-2">
+              <label className="text-xs text-[#A0A0A5] mb-2 block font-medium">Amount</label>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4 flex-1">
+                  <span className="text-3xl text-[#E1E1E5] font-medium">₹</span>
+                  <input 
                     type="number"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="0.00"
+                    onChange={e => setAmount(e.target.value)}
+                    placeholder="0"
                     step="0.01"
-                    className="w-full bg-transparent text-right text-3xl font-black text-[#222222] dark:text-[#F7F7F7] outline-none placeholder:text-neutral-300 dark:placeholder:text-[#444]"
-                    required
+                    className="bg-transparent text-4xl text-white outline-none w-full placeholder:text-[#4A4A52] font-normal"
                   />
                 </div>
+                <button className="w-10 h-10 rounded-full bg-[#1C1C22] flex items-center justify-center shrink-0 hover:bg-[#2A2A32] transition-colors">
+                  <Calculator className="w-5 h-5 text-[#A0A0A5]" />
+                </button>
               </div>
+            </div>
 
-              {/* App Category Pills (Horizontal Scroll) */}
-              <div className="col-span-2">
-                <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-2 px-2">
-                  {appCategories.map((cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => setExpenseType(expenseType === cat ? '' : cat)}
-                      className={`px-3 py-1.5 rounded-[10px] text-xs font-bold flex-shrink-0 transition-transform ${
-                        expenseType === cat 
-                          ? 'bg-[#3B3B98] text-white shadow-sm scale-105' 
-                          : 'bg-neutral-100 dark:bg-[#15151A] text-[#717171] dark:text-[#A0A0A0]'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+            {/* Field List */}
+            <div className="space-y-6 pt-2">
+              {/* Category */}
+              <label className="flex items-center justify-between cursor-pointer relative group">
+                <div className="flex items-center gap-5">
+                  <MoreHorizontal className="w-[22px] h-[22px] text-[#A0A0A5]" />
+                  <div>
+                    <p className="text-xs text-[#A0A0A5] mb-0.5">Category</p>
+                    <p className="text-[15px] font-medium text-[#E1E1E5]">{category}</p>
+                  </div>
                 </div>
-              </div>
+                <ChevronRight className="w-5 h-5 text-[#A0A0A5]" />
+                <select 
+                  value={category} 
+                  onChange={e => setCategory(e.target.value)}
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                >
+                  {CATEGORIES.map(c => <option key={c} value={c} className="text-black">{c}</option>)}
+                </select>
+              </label>
 
-              {/* Compact Field Grid (2 columns) */}
-              <div className="grid grid-cols-2 gap-3">
-                {/* Party Name / Reason */}
-                {type && (
-                  <div className="col-span-2 flex gap-3">
-                    <input
+              {/* Payment Mode */}
+              <label className="flex items-center justify-between cursor-pointer relative group">
+                <div className="flex items-center gap-5">
+                  <Wallet className="w-[22px] h-[22px] text-[#A0A0A5]" />
+                  <div>
+                    <p className="text-xs text-[#A0A0A5] mb-0.5">Payment mode</p>
+                    <p className="text-[15px] font-medium text-[#E1E1E5]">{paymentMethod}</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-[#A0A0A5]" />
+                <select 
+                  value={paymentMethod} 
+                  onChange={e => setPaymentMethod(e.target.value as 'Bank'|'UPI')}
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                >
+                  <option value="Bank" className="text-black">Bank</option>
+                  <option value="UPI" className="text-black">UPI</option>
+                </select>
+              </label>
+
+              {/* UPI App (conditional) */}
+              {paymentMethod === 'UPI' && (
+                <label className="flex items-center justify-between cursor-pointer relative group animate-in fade-in slide-in-from-top-2">
+                  <div className="flex items-center gap-5">
+                    <Smartphone className="w-[22px] h-[22px] text-[#A0A0A5]" />
+                    <div>
+                      <p className="text-xs text-[#A0A0A5] mb-0.5">UPI App *</p>
+                      <p className="text-[15px] font-medium text-[#E1E1E5]">{upiApp || 'Select App'}</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-[#A0A0A5]" />
+                  <select 
+                    value={upiApp} 
+                    onChange={e => setUpiApp(e.target.value)}
+                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                  >
+                    <option value="" disabled className="text-black">Select App</option>
+                    <option value="GPay" className="text-black">GPay</option>
+                    <option value="PhonePe" className="text-black">PhonePe</option>
+                    <option value="Paytm" className="text-black">Paytm</option>
+                    <option value="Other" className="text-black">Other</option>
+                  </select>
+                </label>
+              )}
+
+              {/* Account */}
+              <label className="flex items-center justify-between cursor-pointer relative group">
+                <div className="flex items-center gap-5">
+                  <Landmark className="w-[22px] h-[22px] text-[#A0A0A5]" />
+                  <div>
+                    <p className="text-xs text-[#A0A0A5] mb-0.5">Account *</p>
+                    <p className="text-[15px] font-medium text-[#E1E1E5]">
+                      {selectedAccountId ? accounts.find(a => a.id === selectedAccountId)?.bankName || 'Unknown Bank' : 'Select Account'}
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-[#A0A0A5]" />
+                <select 
+                  value={selectedAccountId} 
+                  onChange={e => setSelectedAccountId(Number(e.target.value))}
+                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                >
+                  <option value="" disabled className="text-black">Select Account</option>
+                  {accounts.map(a => <option key={a.id} value={a.id} className="text-black">{a.bankName}</option>)}
+                </select>
+              </label>
+
+              {/* Party Name */}
+              <label className="flex items-center justify-between cursor-pointer relative group">
+                <div className="flex items-center gap-5 w-full">
+                  <User className="w-[22px] h-[22px] text-[#A0A0A5] shrink-0" />
+                  <div className="w-full">
+                    <p className="text-xs text-[#A0A0A5] mb-0.5">{type === 'DEBIT' ? 'Paid To *' : 'Received From *'}</p>
+                    <input 
                       type="text"
                       value={partyName}
-                      onChange={(e) => setPartyName(e.target.value)}
-                      placeholder={type === 'DEBIT' ? "Paid To *" : "Received From *"}
-                      className="flex-1 px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] placeholder:font-semibold placeholder:text-[#A0A0A0]"
-                      required
-                    />
-                    <input
-                      type="text"
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      placeholder="Note"
-                      className="w-1/3 px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] placeholder:font-semibold placeholder:text-[#A0A0A0]"
+                      onChange={e => setPartyName(e.target.value)}
+                      placeholder="Enter name"
+                      className="bg-transparent text-[15px] font-medium text-[#E1E1E5] outline-none w-full placeholder:text-[#4A4A52]"
                     />
                   </div>
-                )}
-                
-                {/* Account */}
-                <div>
-                  <select
-                    value={selectedAccountId}
-                    onChange={(e) => setSelectedAccountId(Number(e.target.value) || '')}
-                    className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] appearance-none"
-                    required
-                  >
-                    <option value="" disabled>Acct *</option>
-                    {accounts.map(acc => (
-                      <option key={acc.id} value={acc.id}>
-                        {acc.bankName} (..{acc.accountLast4})
-                      </option>
-                    ))}
-                  </select>
                 </div>
+              </label>
+            </div>
 
-                {/* Date */}
-                <div>
-                  <input
-                    type="datetime-local"
-                    value={transactionDate}
-                    onChange={(e) => setTransactionDate(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7]"
-                    required
+            {/* Other details Header */}
+            <div className="pt-4">
+              <h3 className="text-[13px] font-semibold text-[#E1E1E5] tracking-wide mb-6">Other details</h3>
+              
+              <div className="space-y-6">
+                {/* Note */}
+                <div className="flex items-center gap-5">
+                  <AlignLeft className="w-[22px] h-[22px] text-[#A0A0A5] shrink-0" />
+                  <input 
+                    type="text"
+                    value={note}
+                    onChange={e => setNote(e.target.value)}
+                    placeholder="Write a note"
+                    className="bg-transparent text-[15px] text-[#E1E1E5] outline-none w-full placeholder:text-[#4A4A52] font-medium"
                   />
                 </div>
 
-                {/* Category */}
+                {/* Tags (Expense Type) */}
                 <div>
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] appearance-none"
-                  >
-                    {CATEGORIES.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Payment Method */}
-                <div>
-                  <select
-                    value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value as 'Bank' | 'UPI')}
-                    className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] appearance-none"
-                  >
-                    <option value="Bank">Bank</option>
-                    <option value="UPI">UPI</option>
-                  </select>
-                </div>
-
-                {paymentMethod === 'UPI' && (
-                  <div className="col-span-2">
-                    <select
-                      value={upiApp}
-                      onChange={(e) => setUpiApp(e.target.value)}
-                      className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] appearance-none"
-                      required
-                    >
-                      <option value="" disabled>Select UPI App *</option>
-                      <option value="GPay">GPay</option>
-                      <option value="PhonePe">PhonePe</option>
-                      <option value="Paytm">Paytm</option>
-                      <option value="Other">Other</option>
-                    </select>
+                  <div className="flex items-center gap-5 mb-3">
+                    <Hash className="w-[22px] h-[22px] text-[#A0A0A5] shrink-0" />
+                    <span className="text-[15px] text-[#4A4A52] font-medium">Add tags (Expense Type)</span>
                   </div>
-                )}
-              </div>
+                  <div className="flex flex-wrap gap-2 pl-[42px]">
+                    {appCategories.map(cat => (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setExpenseType(expenseType === cat ? '' : cat)}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[13px] font-medium transition-colors ${
+                          expenseType === cat 
+                            ? 'bg-[#2A2A32] text-[#E1E1E5]' 
+                            : 'bg-[#1C1C22] text-[#A0A0A5] hover:bg-[#2A2A32]'
+                        }`}
+                      >
+                        <div className={`w-2.5 h-2.5 rounded-full ${expenseType === cat ? 'bg-indigo-500' : 'bg-[#2A2A32]'}`}></div>
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-              {/* Status Messages */}
+                {/* Attachment */}
+                <div className="flex items-center justify-between cursor-not-allowed opacity-50">
+                  <div className="flex items-center gap-5">
+                    <Paperclip className="w-[22px] h-[22px] text-[#A0A0A5] shrink-0" />
+                    <span className="text-[15px] text-[#A0A0A5] font-medium">Add attachment</span>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-[#A0A0A5]" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Status Messages */}
+          {(status === 'error' || status === 'success') && (
+            <div className="absolute bottom-28 left-4 right-24 z-10 animate-in fade-in slide-in-from-bottom-2">
               {status === 'error' && (
-                <div className="p-3 bg-rose-500/10 text-rose-500 rounded-[12px] flex items-center gap-2 text-xs font-bold">
-                  <AlertCircle className="w-4 h-4 shrink-0" /> {errorMessage}
+                <div className="p-3 bg-rose-500/10 text-rose-500 rounded-xl flex items-center gap-3 text-[13px] font-medium border border-rose-500/20 shadow-lg backdrop-blur-md">
+                  <AlertCircle className="w-5 h-5 shrink-0" /> {errorMessage}
                 </div>
               )}
               {status === 'success' && (
-                <div className="p-3 bg-emerald-500/10 text-emerald-500 rounded-[12px] flex items-center gap-2 text-xs font-bold">
-                  <CheckCircle2 className="w-4 h-4 shrink-0" /> Saved!
+                <div className="p-3 bg-emerald-500/10 text-emerald-500 rounded-xl flex items-center gap-3 text-[13px] font-medium border border-emerald-500/20 shadow-lg backdrop-blur-md">
+                  <CheckCircle2 className="w-5 h-5 shrink-0" /> Transaction saved!
                 </div>
               )}
-
-              {/* Save Button */}
-              <div className="pt-2 pb-safe mt-auto">
-                <button
-                  onClick={handleSaveManual}
-                  disabled={!amount || !type || !partyName || !selectedAccountId || (paymentMethod === 'UPI' && !upiApp) || status === 'success'}
-                  className="w-full py-4 bg-gradient-to-r from-[#3B3B98] to-[#6C6CF0] text-white font-black text-lg rounded-[16px] shadow-md hover:shadow-lg transform transition-all disabled:opacity-50"
-                >
-                  Save Transaction
-                </button>
-              </div>
             </div>
+          )}
+
+          {/* Floating Action Button for Save */}
+          <div className="absolute bottom-6 right-6 z-20">
+            <button
+              onClick={handleSaveManual}
+              disabled={!amount || !type || !partyName || !selectedAccountId || (paymentMethod === 'UPI' && !upiApp) || status === 'success'}
+              className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
+              <Save className="w-7 h-7" />
+            </button>
           </div>
         </div>,
         document.body
