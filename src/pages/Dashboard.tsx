@@ -394,20 +394,20 @@ export default function Dashboard() {
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto w-full px-4 pt-6 pb-20 space-y-6 scrollbar-hide no-scrollbar">
+          <div className="flex-1 overflow-y-auto w-full px-3 pt-4 pb-safe space-y-3.5 scrollbar-hide no-scrollbar">
             
-            {/* Amount Section */}
-            <div className="flex flex-col items-center justify-center space-y-1">
-              <span className="text-[#A0A0A5] text-[13px] font-medium tracking-wide">Amount</span>
-              <div className="flex items-center justify-center gap-1.5 border-b-2 border-transparent focus-within:border-[#3B3B98] transition-colors pb-1 px-4">
-                <span className="text-2xl font-medium text-[#A0A0A5]">₹</span>
+            {/* Amount Section & Party Name Group */}
+            <div className="flex flex-col items-center justify-center space-y-1.5 mb-1">
+              <span className="text-[#A0A0A5] text-[11px] font-bold tracking-wide uppercase">Amount</span>
+              <div className="flex items-center justify-center gap-1 border-b-[1.5px] border-transparent focus-within:border-[#3B3B98] transition-colors pb-0.5 px-2">
+                <span className="text-xl font-medium text-[#A0A0A5]">₹</span>
                 <input 
                   type="number"
                   value={amount}
                   onChange={e => setAmount(e.target.value)}
                   placeholder="0"
                   step="0.01"
-                  className="bg-transparent text-[44px] font-bold text-white outline-none w-[180px] text-center placeholder:text-[#4A4A52]"
+                  className="bg-transparent text-[36px] font-bold text-white outline-none w-[140px] text-center placeholder:text-[#4A4A52]"
                 />
               </div>
             </div>
@@ -416,47 +416,47 @@ export default function Dashboard() {
             {(status === 'error' || status === 'success') && (
               <div className="flex justify-center animate-in fade-in zoom-in-95 duration-200">
                 {status === 'error' && (
-                  <div className="px-4 py-2 bg-rose-500/10 text-rose-500 rounded-full flex items-center gap-2 text-[13px] font-bold border border-rose-500/20">
-                    <AlertCircle className="w-4 h-4 shrink-0" /> {errorMessage}
+                  <div className="px-3 py-1.5 bg-rose-500/10 text-rose-500 rounded-full flex items-center gap-2 text-[12px] font-bold border border-rose-500/20">
+                    <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errorMessage}
                   </div>
                 )}
                 {status === 'success' && (
-                  <div className="px-4 py-2 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center gap-2 text-[13px] font-bold border border-emerald-500/20">
-                    <CheckCircle2 className="w-4 h-4 shrink-0" /> Transaction saved!
+                  <div className="px-3 py-1.5 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center gap-2 text-[12px] font-bold border border-emerald-500/20">
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> Transaction saved!
                   </div>
                 )}
               </div>
             )}
 
             {/* Party Name Input */}
-            <div className="bg-[#1C1C22] rounded-[16px] p-4 flex items-center gap-4 border border-white/5 focus-within:border-white/20 transition-colors">
-              <div className="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center shrink-0">
-                <User className="w-[18px] h-[18px] text-[#A0A0A5]" />
+            <div className="bg-[#1C1C22] rounded-[14px] p-2.5 flex items-center gap-3 border border-white/5 focus-within:border-white/20 transition-colors">
+              <div className="w-7 h-7 rounded-sm bg-black/40 flex items-center justify-center shrink-0">
+                <User className="w-[16px] h-[16px] text-[#A0A0A5]" />
               </div>
               <input 
                 type="text"
                 value={partyName}
                 onChange={e => setPartyName(e.target.value)}
                 placeholder={type === 'DEBIT' ? 'Paid to...' : 'Received from...'}
-                className="bg-transparent flex-1 text-[16px] font-medium text-white outline-none placeholder:text-[#5A5A62]"
+                className="bg-transparent flex-1 text-[14px] font-medium text-white outline-none placeholder:text-[#5A5A62]"
               />
             </div>
 
             {/* Account Selector (One-tap Pills) */}
-            <div className="space-y-2.5">
-              <p className="text-[11px] font-bold text-[#A0A0A5] uppercase tracking-wider px-1">Account</p>
-              <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4">
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-bold text-[#A0A0A5] uppercase tracking-wider px-1">Account</p>
+              <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-3 px-3">
                 {accounts.map(acc => (
                   <button 
                     key={acc.id} 
                     onClick={() => setSelectedAccountId(acc.id!)}
-                    className={`px-4 py-2.5 rounded-[12px] text-[14px] font-bold whitespace-nowrap transition-all shadow-sm flex items-center gap-2 ${
+                    className={`px-3 py-1.5 rounded-[10px] text-[13px] font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                       selectedAccountId === acc.id 
-                        ? 'bg-white text-black scale-100' 
-                        : 'bg-[#1C1C22] text-[#A0A0A5] border border-white/5 active:scale-95'
+                        ? 'bg-white text-black shadow-sm' 
+                        : 'bg-[#1C1C22] text-[#A0A0A5] border border-white/5'
                     }`}
                   >
-                    <Landmark className="w-4 h-4" />
+                    <Landmark className="w-3.5 h-3.5" />
                     {acc.bankName}
                   </button>
                 ))}
@@ -464,20 +464,20 @@ export default function Dashboard() {
             </div>
 
             {/* Category Selector (One-tap Pills) */}
-            <div className="space-y-2.5">
-              <p className="text-[11px] font-bold text-[#A0A0A5] uppercase tracking-wider px-1">Category</p>
-              <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4">
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-bold text-[#A0A0A5] uppercase tracking-wider px-1">Category</p>
+              <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-3 px-3">
                 {CATEGORIES.map(cat => (
                   <button 
                     key={cat} 
                     onClick={() => setCategory(cat)}
-                    className={`px-4 py-2.5 rounded-[12px] text-[14px] font-bold whitespace-nowrap transition-all shadow-sm flex items-center gap-2 ${
+                    className={`px-3 py-1.5 rounded-[10px] text-[13px] font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                       category === cat 
-                        ? 'bg-white text-black scale-100' 
-                        : 'bg-[#1C1C22] text-[#A0A0A5] border border-white/5 active:scale-95'
+                        ? 'bg-white text-black shadow-sm' 
+                        : 'bg-[#1C1C22] text-[#A0A0A5] border border-white/5'
                     }`}
                   >
-                    <span>{CATEGORY_ICONS[cat] || '📝'}</span>
+                    <span className="text-[14px]">{CATEGORY_ICONS[cat] || '📝'}</span>
                     {cat}
                   </button>
                 ))}
@@ -485,37 +485,37 @@ export default function Dashboard() {
             </div>
 
             {/* Payment Mode */}
-            <div className="space-y-2.5">
-              <p className="text-[11px] font-bold text-[#A0A0A5] uppercase tracking-wider px-1">Payment Method</p>
-              <div className="flex gap-3">
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-bold text-[#A0A0A5] uppercase tracking-wider px-1">Payment Method</p>
+              <div className="flex gap-2">
                 <button 
                   onClick={() => setPaymentMethod('Bank')}
-                  className={`flex-1 py-3 rounded-[12px] text-[14px] font-bold transition-all shadow-sm flex items-center justify-center gap-2 ${
-                    paymentMethod === 'Bank' ? 'bg-[#3B3B98] text-white' : 'bg-[#1C1C22] text-[#A0A0A5] border border-white/5'
+                  className={`flex-1 py-1.5 rounded-[10px] text-[13px] font-bold transition-all flex items-center justify-center gap-1.5 ${
+                    paymentMethod === 'Bank' ? 'bg-[#3B3B98] text-white shadow-sm' : 'bg-[#1C1C22] text-[#A0A0A5] border border-white/5'
                   }`}
                 >
-                  <Landmark className="w-4 h-4" /> Bank
+                  <Landmark className="w-3.5 h-3.5" /> Bank
                 </button>
                 <button 
                   onClick={() => setPaymentMethod('UPI')}
-                  className={`flex-1 py-3 rounded-[12px] text-[14px] font-bold transition-all shadow-sm flex items-center justify-center gap-2 ${
-                    paymentMethod === 'UPI' ? 'bg-[#3B3B98] text-white' : 'bg-[#1C1C22] text-[#A0A0A5] border border-white/5'
+                  className={`flex-1 py-1.5 rounded-[10px] text-[13px] font-bold transition-all flex items-center justify-center gap-1.5 ${
+                    paymentMethod === 'UPI' ? 'bg-[#3B3B98] text-white shadow-sm' : 'bg-[#1C1C22] text-[#A0A0A5] border border-white/5'
                   }`}
                 >
-                  <Smartphone className="w-4 h-4" /> UPI
+                  <Smartphone className="w-3.5 h-3.5" /> UPI
                 </button>
               </div>
 
               {/* UPI App Wrapper */}
               {paymentMethod === 'UPI' && (
-                <div className="flex gap-2.5 overflow-x-auto no-scrollbar pt-2 pb-2 -mx-4 px-4 animate-in fade-in slide-in-from-top-2">
+                <div className="flex gap-2 overflow-x-auto no-scrollbar pt-1 pb-1 -mx-3 px-3 animate-in fade-in slide-in-from-top-1">
                   {['GPay', 'PhonePe', 'Paytm', 'Other'].map(app => (
                     <button 
                       key={app} 
                       onClick={() => setUpiApp(app)}
-                      className={`px-5 py-2 rounded-[10px] text-[13px] font-bold whitespace-nowrap transition-all border ${
+                      className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold whitespace-nowrap transition-all border border-transparent ${
                         upiApp === app 
-                          ? 'bg-[#6C6CF0]/20 border-[#6C6CF0] text-[#8C8CFF]' 
+                          ? 'bg-[#6C6CF0]/20 border-[#6C6CF0]/40 text-[#8C8CFF]' 
                           : 'bg-[#1C1C22] border-white/5 text-[#A0A0A5]'
                       }`}
                     >
@@ -527,48 +527,45 @@ export default function Dashboard() {
             </div>
 
             {/* Tags (Expense Type) */}
-            <div className="space-y-2.5">
-              <p className="text-[11px] font-bold text-[#A0A0A5] uppercase tracking-wider px-1 flex items-center gap-1.5">
-                <Hash className="w-3.5 h-3.5" /> Tags
-              </p>
-              <div className="flex flex-wrap gap-2.5">
+            <div className="space-y-1.5">
+              <div className="flex flex-wrap gap-2">
                 {appCategories.map(cat => (
                   <button 
                     key={cat} 
                     onClick={() => setExpenseType(expenseType === cat ? '' : cat)}
-                    className={`px-3 py-1.5 rounded-full text-[12px] font-bold transition-all border ${
+                    className={`px-2.5 py-1 rounded-sm text-[11px] font-bold transition-all border ${
                       expenseType === cat 
-                        ? 'bg-white text-black border-transparent' 
+                        ? 'bg-[#E1E1E5] text-black border-[#E1E1E5]' 
                         : 'bg-transparent border-white/10 text-[#A0A0A5] hover:bg-white/5'
                     }`}
                   >
-                    {cat}
+                    #{cat}
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Additional Details Grouped Card */}
-            <div className="bg-[#1C1C22] rounded-[16px] p-1 border border-white/5">
-              <div className="flex items-center gap-4 p-3 border-b border-white/5">
-                <div className="w-7 h-7 rounded-lg bg-black/30 flex items-center justify-center shrink-0">
-                  <AlignLeft className="w-4 h-4 text-[#A0A0A5]" />
+            <div className="bg-[#1C1C22] rounded-[14px] p-0.5 border border-white/5">
+              <div className="flex items-center gap-3 p-2 border-b border-white/5">
+                <div className="w-6 h-6 rounded bg-black/30 flex items-center justify-center shrink-0">
+                  <AlignLeft className="w-3.5 h-3.5 text-[#A0A0A5]" />
                 </div>
                 <input 
                   type="text"
                   value={note}
                   onChange={e => setNote(e.target.value)}
                   placeholder="Add a note (optional)..."
-                  className="bg-transparent flex-1 text-[14px] text-white outline-none placeholder:text-[#5A5A62]"
+                  className="bg-transparent flex-1 text-[13px] text-white outline-none placeholder:text-[#5A5A62]"
                 />
               </div>
 
-              <div className="flex items-center gap-4 p-3 relative cursor-pointer group">
-                <div className="w-7 h-7 rounded-lg bg-black/30 flex items-center justify-center shrink-0">
-                  <Calendar className="w-4 h-4 text-[#A0A0A5] group-hover:text-white transition-colors" />
+              <div className="flex items-center gap-3 p-2 relative cursor-pointer group">
+                <div className="w-6 h-6 rounded bg-black/30 flex items-center justify-center shrink-0">
+                  <Calendar className="w-3.5 h-3.5 text-[#A0A0A5] group-hover:text-white transition-colors" />
                 </div>
-                <span className="text-[14px] flex-1 font-medium text-[#E1E1E5]">
-                  {format(new Date(transactionDate), 'dd MMM yyyy, hh:mm a')}
+                <span className="text-[13px] flex-1 font-medium text-[#E1E1E5]">
+                  {format(new Date(transactionDate), 'dd MMM yy, hh:mm a')}
                 </span>
                 <input 
                   type="datetime-local" 
