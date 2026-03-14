@@ -376,55 +376,54 @@ export default function Dashboard() {
               </button>
             </div>
             
-            <div className="p-5 md:p-6 space-y-6 overflow-y-auto w-full">
+            <div className="p-4 md:p-5 space-y-4 overflow-y-auto w-full no-scrollbar">
               {/* Transaction Type Segmented Control */}
-              <div className="flex p-1 bg-neutral-100 dark:bg-[#15151A] rounded-[16px]">
+              <div className="flex p-1 bg-neutral-100 dark:bg-[#15151A] rounded-[14px]">
                 <button 
                   type="button"
                   onClick={() => setType('DEBIT')} 
-                  className={`flex-1 py-3 text-sm font-bold rounded-[12px] transition-all ${type === 'DEBIT' ? 'bg-white dark:bg-[#2A2A35] shadow-sm text-rose-500' : 'text-[#717171] dark:text-[#A0A0A0]'}`}
+                  className={`flex-1 py-2 text-xs font-bold rounded-[10px] transition-all ${type === 'DEBIT' ? 'bg-white dark:bg-[#2A2A35] shadow-sm text-rose-500' : 'text-[#717171] dark:text-[#A0A0A0]'}`}
                 >
                   Paid To (Debit)
                 </button>
                 <button 
                   type="button"
                   onClick={() => setType('CREDIT')} 
-                  className={`flex-1 py-3 text-sm font-bold rounded-[12px] transition-all ${type === 'CREDIT' ? 'bg-white dark:bg-[#2A2A35] shadow-sm text-emerald-500' : 'text-[#717171] dark:text-[#A0A0A0]'}`}
+                  className={`flex-1 py-2 text-xs font-bold rounded-[10px] transition-all ${type === 'CREDIT' ? 'bg-white dark:bg-[#2A2A35] shadow-sm text-emerald-500' : 'text-[#717171] dark:text-[#A0A0A0]'}`}
                 >
                   Received (Credit)
                 </button>
               </div>
 
-              {/* Large Amount Input */}
-              <div>
-                <label className="block text-xs font-bold text-[#717171] dark:text-[#A0A0A0] uppercase tracking-wider mb-2 text-center">Amount</label>
-                <div className="relative max-w-xs mx-auto">
-                  <span className="absolute left-6 top-1/2 -translate-y-1/2 text-3xl font-bold text-[#717171] dark:text-[#A0A0A0]">₹</span>
+              {/* Amount Row (Compacted) */}
+              <div className="flex items-center justify-between bg-neutral-50 dark:bg-[#15151A] p-3 px-4 rounded-[16px]">
+                <span className="text-xs font-bold text-[#717171] dark:text-[#A0A0A0] uppercase tracking-wider">Amount</span>
+                <div className="relative w-1/2 flex items-center justify-end">
+                  <span className="text-xl font-bold text-[#717171] dark:text-[#A0A0A0] mr-2">₹</span>
                   <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
                     step="0.01"
-                    className="w-full pl-12 pr-4 py-4 bg-transparent border-b-2 border-[#EBEBEB] dark:border-[#1A1A1E] text-center text-5xl font-black text-[#222222] dark:text-[#F7F7F7] focus:border-[#3B3B98] dark:focus:border-[#6C6CF0] outline-none transition-colors"
+                    className="w-full bg-transparent text-right text-3xl font-black text-[#222222] dark:text-[#F7F7F7] outline-none placeholder:text-neutral-300 dark:placeholder:text-[#444]"
                     required
                   />
                 </div>
               </div>
 
-              {/* App Category Pills */}
-              <div>
-                <label className="block text-xs font-bold text-[#717171] dark:text-[#A0A0A0] uppercase tracking-wider mb-3">Expense Type</label>
-                <div className="flex flex-wrap gap-2">
+              {/* App Category Pills (Horizontal Scroll) */}
+              <div className="col-span-2">
+                <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-2 px-2">
                   {appCategories.map((cat) => (
                     <button
                       key={cat}
                       type="button"
                       onClick={() => setExpenseType(expenseType === cat ? '' : cat)}
-                      className={`px-4 py-2.5 rounded-[14px] text-sm font-bold transition-all ${
+                      className={`px-3 py-1.5 rounded-[10px] text-xs font-bold flex-shrink-0 transition-transform ${
                         expenseType === cat 
-                          ? 'bg-[#3B3B98] text-white shadow-md scale-105' 
-                          : 'bg-neutral-100 dark:bg-[#15151A] text-[#717171] dark:text-[#A0A0A0] hover:bg-neutral-200 dark:hover:bg-[#2A2A35]'
+                          ? 'bg-[#3B3B98] text-white shadow-sm scale-105' 
+                          : 'bg-neutral-100 dark:bg-[#15151A] text-[#717171] dark:text-[#A0A0A0]'
                       }`}
                     >
                       {cat}
@@ -433,128 +432,118 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {type && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">
-                      {type === 'DEBIT' ? 'Paid To *' : 'Received From *'}
-                    </label>
+              {/* Compact Field Grid (2 columns) */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* Party Name / Reason */}
+                {type && (
+                  <div className="col-span-2 flex gap-3">
                     <input
                       type="text"
                       value={partyName}
                       onChange={(e) => setPartyName(e.target.value)}
-                      placeholder={type === 'DEBIT' ? "e.g., Grocery Store" : "e.g., Employer"}
-                      className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7]"
+                      placeholder={type === 'DEBIT' ? "Paid To *" : "Received From *"}
+                      className="flex-1 px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] placeholder:font-semibold placeholder:text-[#A0A0A0]"
                       required
                     />
+                    <input
+                      type="text"
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                      placeholder="Note"
+                      className="w-1/3 px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] placeholder:font-semibold placeholder:text-[#A0A0A0]"
+                    />
                   </div>
-                  {partyName && (
-                    <div className="animate-in fade-in slide-in-from-top-2">
-                      <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Reason (Optional)</label>
-                      <input
-                        type="text"
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                        placeholder="e.g., Monthly groceries"
-                        className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7]"
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                )}
+                
+                {/* Account */}
                 <div>
-                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Select Account *</label>
                   <select
                     value={selectedAccountId}
                     onChange={(e) => setSelectedAccountId(Number(e.target.value) || '')}
-                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7] appearance-none"
+                    className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] appearance-none"
                     required
                   >
-                    <option value="" disabled>Select an account</option>
+                    <option value="" disabled>Acct *</option>
                     {accounts.map(acc => (
                       <option key={acc.id} value={acc.id}>
-                        {acc.bankName} (**** {acc.accountLast4})
+                        {acc.bankName} (..{acc.accountLast4})
                       </option>
                     ))}
                   </select>
                 </div>
+
+                {/* Date */}
                 <div>
-                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Date</label>
                   <input
                     type="datetime-local"
                     value={transactionDate}
                     onChange={(e) => setTransactionDate(e.target.value)}
-                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7]"
+                    className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7]"
                     required
                   />
                 </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                {/* Category */}
                 <div>
-                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Category</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7] appearance-none"
+                    className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] appearance-none"
                   >
                     {CATEGORIES.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
                   </select>
                 </div>
+
+                {/* Payment Method */}
                 <div>
-                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">Payment Method</label>
                   <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value as 'Bank' | 'UPI')}
-                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7] appearance-none"
+                    className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] appearance-none"
                   >
                     <option value="Bank">Bank</option>
                     <option value="UPI">UPI</option>
                   </select>
                 </div>
+
+                {paymentMethod === 'UPI' && (
+                  <div className="col-span-2">
+                    <select
+                      value={upiApp}
+                      onChange={(e) => setUpiApp(e.target.value)}
+                      className="w-full px-4 py-3 bg-neutral-50 dark:bg-[#15151A] rounded-[14px] outline-none text-sm font-bold text-[#222222] dark:text-[#F7F7F7] appearance-none"
+                      required
+                    >
+                      <option value="" disabled>Select UPI App *</option>
+                      <option value="GPay">GPay</option>
+                      <option value="PhonePe">PhonePe</option>
+                      <option value="Paytm">Paytm</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                )}
               </div>
 
-              {paymentMethod === 'UPI' && (
-                <div className="animate-in fade-in slide-in-from-top-2">
-                  <label className="block text-sm font-bold text-[#222222] dark:text-[#F7F7F7] mb-1.5">UPI App *</label>
-                  <select
-                    value={upiApp}
-                    onChange={(e) => setUpiApp(e.target.value)}
-                    className="w-full px-5 py-4 bg-neutral-50 dark:bg-[#15151A] border-none rounded-[16px] focus:ring-2 focus:ring-[#3B3B98] outline-none transition-shadow font-medium text-[#222222] dark:text-[#F7F7F7] appearance-none"
-                    required
-                  >
-                    <option value="" disabled>Select UPI App</option>
-                    <option value="GPay">GPay</option>
-                    <option value="PhonePe">PhonePe</option>
-                    <option value="Paytm">Paytm</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-              )}
-
+              {/* Status Messages */}
               {status === 'error' && (
-                <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded-[16px] flex items-center gap-3 text-sm font-bold">
-                  <AlertCircle className="w-5 h-5 shrink-0" />
-                  {errorMessage}
+                <div className="p-3 bg-rose-500/10 text-rose-500 rounded-[12px] flex items-center gap-2 text-xs font-bold">
+                  <AlertCircle className="w-4 h-4 shrink-0" /> {errorMessage}
                 </div>
               )}
-
               {status === 'success' && (
-                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded-[16px] flex items-center gap-3 text-sm font-bold">
-                  <CheckCircle2 className="w-5 h-5 shrink-0" />
-                  Transaction saved successfully!
+                <div className="p-3 bg-emerald-500/10 text-emerald-500 rounded-[12px] flex items-center gap-2 text-xs font-bold">
+                  <CheckCircle2 className="w-4 h-4 shrink-0" /> Saved!
                 </div>
               )}
 
-              <div className="pt-4 pb-safe mt-6">
+              {/* Save Button */}
+              <div className="pt-2 pb-safe">
                 <button
                   onClick={handleSaveManual}
                   disabled={!amount || !type || !partyName || !selectedAccountId || (paymentMethod === 'UPI' && !upiApp) || status === 'success'}
-                  className="w-full py-4 bg-gradient-to-r from-[#3B3B98] to-[#6C6CF0] text-white font-extrabold text-lg rounded-[20px] shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full py-4 bg-gradient-to-r from-[#3B3B98] to-[#6C6CF0] text-white font-black text-base rounded-[16px] shadow-md hover:shadow-lg transform transition-all disabled:opacity-50"
                 >
                   Save Transaction
                 </button>
