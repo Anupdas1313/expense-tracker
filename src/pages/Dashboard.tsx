@@ -306,16 +306,8 @@ export default function Dashboard() {
               balances.map(acc => (
                 <div key={acc.id} className="p-4 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#15151A] transition-colors group cursor-pointer" onClick={() => navigate('/accounts')}>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-neutral-100 dark:bg-[#15151A] rounded-full flex items-center justify-center text-[#717171] dark:text-[#A0A0A0] font-bold overflow-hidden p-1 border border-transparent dark:border-[#1A1A1E]">
-                      {acc.bankName.toLowerCase().includes('canara') ? (
-                        <img src="https://crystalpng.com/wp-content/uploads/2025/11/Canara-Bank-Logo.png" alt="Canara Bank" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                      ) : acc.bankName.toLowerCase().includes('indus') || acc.bankName.toLowerCase().includes('insus') ? (
-                        <IndusIndLogo className="w-full h-full object-contain" />
-                      ) : acc.bankName.toLowerCase().includes('union') ? (
-                        <UnionBankLogo className="w-full h-full object-contain" />
-                      ) : (
-                        acc.bankName.substring(0, 2).toUpperCase()
-                      )}
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden p-1.5 shadow-sm border border-[#EBEBEB] dark:border-[#1A1A1E]">
+                      <BankLogo bankName={acc.bankName} className="w-full h-full" />
                     </div>
                     <div>
                       <p className="font-bold text-[#222222] dark:text-[#F7F7F7]">{acc.bankName}</p>

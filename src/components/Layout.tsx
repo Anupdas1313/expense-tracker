@@ -15,11 +15,11 @@ export default function Layout() {
   const mainNavItems = [
     { name: 'Home', path: '/', icon: LayoutDashboard },
     { name: 'Transactions', path: '/transactions', icon: ListOrdered },
-    { name: 'Accounts', path: '/accounts', icon: Wallet },
+    { name: 'Summary', path: '/summary', icon: PieChart },
   ];
 
   const moreNavItems = [
-    { name: 'Summary', path: '/summary', icon: PieChart },
+    { name: 'Accounts', path: '/accounts', icon: Wallet },
     { name: 'Budgets', path: '/budgets', icon: Target },
     { name: 'Accounting', path: '/accounting', icon: Calculator },
     { name: 'Parse SMS', path: '/parse', icon: MessageSquareText },
