@@ -439,8 +439,9 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* 4. Identity Section (Paid to / From where) */}
-            <div className="bg-[#1C1C22] rounded-2xl p-1 border border-white/5">
+            {/* 4. Identity & Remarks Group */}
+            <div className="bg-[#1C1C22] rounded-2xl border border-white/5 divide-y divide-white/5">
+              {/* Paid via / Received from */}
               <div className="flex items-center gap-3 p-3">
                 <div className="w-9 h-9 rounded-xl bg-black/40 flex items-center justify-center shrink-0 border border-white/5">
                   <User className="w-[18px] h-[18px] text-[#A0A0A5]" />
@@ -451,6 +452,20 @@ export default function Dashboard() {
                   onChange={e => setPartyName(e.target.value)}
                   placeholder={type === 'DEBIT' ? 'Paid to...' : 'Received from...'}
                   className="bg-transparent flex-1 text-[16px] font-medium text-white outline-none placeholder:text-[#4A4A52]"
+                />
+              </div>
+
+              {/* Remarks */}
+              <div className="flex items-center gap-3 p-3">
+                <div className="w-9 h-9 rounded-xl bg-black/40 flex items-center justify-center shrink-0 border border-white/5">
+                  <AlignLeft className="w-[18px] h-[18px] text-[#A0A0A5]" />
+                </div>
+                <input 
+                  type="text"
+                  value={note}
+                  onChange={e => setNote(e.target.value)}
+                  placeholder="Add remarks..."
+                  className="bg-transparent flex-1 text-[14px] text-white/90 outline-none placeholder:text-[#4A4A52]"
                 />
               </div>
             </div>
@@ -545,35 +560,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Note and Date (Secondary Details) */}
-            <div className="bg-[#1C1C22] rounded-2xl border border-white/5 divide-y divide-white/5">
-              <div className="flex items-center gap-3 p-3">
-                <AlignLeft className="w-4 h-4 text-[#A0A0A5]" />
-                <input 
-                  type="text"
-                  value={note}
-                  onChange={e => setNote(e.target.value)}
-                  placeholder="Note (optional)"
-                  className="bg-transparent flex-1 text-[13px] text-white outline-none placeholder:text-[#4A4A52]"
-                />
-              </div>
 
-              <div className="flex items-center justify-between p-3 relative cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <Calendar className="w-4 h-4 text-[#A0A0A5]" />
-                  <span className="text-[13px] font-medium text-[#E1E1E5]">
-                    {format(new Date(transactionDate), 'dd MMM, hh:mm a')}
-                  </span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-[#4A4A52]" />
-                <input 
-                  type="datetime-local" 
-                  value={transactionDate} 
-                  onChange={e => setTransactionDate(e.target.value)}
-                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                />
-              </div>
-            </div>
 
           </div>
         </div>,
