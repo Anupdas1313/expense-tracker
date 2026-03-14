@@ -413,15 +413,15 @@ export default function Dashboard() {
       {/* Manual Entry Modal - Compact Pill-Based UX Redesign */}
       {isAddingManual && createPortal(
         <div className="fixed inset-0 bg-[#0F0F13] text-white z-[9999] flex flex-col animate-in fade-in slide-in-from-bottom-5 duration-300 font-sans">
-          <div className="flex items-center justify-between px-4 py-2 pt-safe-top bg-[#1C1C22] border-b border-white/5 z-20">
+          <div className="flex items-center justify-between px-4 py-1 pt-safe-top bg-[#1C1C22] border-b border-white/5 z-20">
             <button onClick={closeMenu} className="text-[#A0A0A5] hover:text-white p-1.5 -ml-1 transition-colors">
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-4 h-4" />
             </button>
-            <h2 className="text-[15px] font-bold text-white tracking-tight">Add Transaction</h2>
-            <div className="w-8" /> {/* Spacer to balance back arrow */}
+            <h2 className="text-[14px] font-bold text-white tracking-tight">Add Transaction</h2>
+            <div className="w-6" /> {/* Spacer to balance back arrow */}
           </div>
 
-          <div className="flex-1 overflow-y-auto w-full px-4 pt-3 pb-safe space-y-5 scrollbar-hide no-scrollbar">
+          <div className="flex-1 overflow-y-auto w-full px-4 pt-2 pb-safe space-y-3.5 scrollbar-hide no-scrollbar">
             
             {/* 1. Transaction Type Toggle (Top Priority) */}
             <div className="flex bg-[#1C1C22] p-1 rounded-2xl border border-white/5">
@@ -493,8 +493,8 @@ export default function Dashboard() {
             <div className={`bg-[#1C1C22] rounded-xl border border-white/5 flex ${type === 'TRANSFER' ? 'flex-col divide-y' : 'divide-x'} divide-white/5 overflow-hidden shadow-inner`}>
               
               {/* Amount Input (Left) */}
-              <div className={`flex items-center gap-1.5 p-3 ${type === 'TRANSFER' ? 'w-full' : 'w-[45%]'} focus-within:bg-white/[0.02] transition-colors shrink-0`}>
-                <span className="text-lg font-bold text-[#A0A0A5]">₹</span>
+              <div className={`flex items-center gap-1.5 p-2 ${type === 'TRANSFER' ? 'w-full' : 'w-[45%]'} focus-within:bg-white/[0.02] transition-colors shrink-0`}>
+                <span className="text-base font-bold text-[#A0A0A5]">₹</span>
                 <input 
                   type="number"
                   inputMode="decimal"
@@ -503,12 +503,12 @@ export default function Dashboard() {
                   onChange={e => setAmount(e.target.value)}
                   placeholder="0.00"
                   step="0.01"
-                  className="bg-transparent text-[22px] font-bold text-white outline-none w-full placeholder:text-[#2C2C34] min-w-0"
+                  className="bg-transparent text-[20px] font-bold text-white outline-none w-full placeholder:text-[#2C2C34] min-w-0"
                 />
               </div>
 
               {/* Account Selection (Right) */}
-              <div className={`p-1.5 flex-1 flex items-center overflow-x-auto no-scrollbar bg-black/10`}>
+              <div className={`p-1 flex-1 flex items-center overflow-x-auto no-scrollbar bg-black/10`}>
                 <div className="flex gap-1.5 items-center">
                   {accounts.map(acc => (
                     <button 
@@ -522,12 +522,12 @@ export default function Dashboard() {
                           setSelectedAccountId(acc.id!);
                         }
                       }}
-                      className={`shrink-0 flex flex-col items-center justify-center gap-1 p-1.5 rounded-xl border transition-all group relative ${
+                      className={`shrink-0 flex flex-col items-center justify-center gap-0.5 p-1 rounded-lg border transition-all group relative ${
                         selectedAccountId === acc.id || toAccountId === acc.id
                           ? 'bg-[#3B3B98]/20 border-[#3B3B98] text-white shadow-sm' 
                           : 'bg-[#1C1C22] border-white/5 text-[#A0A0A5] hover:bg-[#2C2C34]'
                       }`}
-                      style={{ minWidth: '56px' }}
+                      style={{ minWidth: '52px' }}
                     >
                       {selectedAccountId === acc.id && type === 'TRANSFER' && (
                         <div className="absolute -top-1.5 bg-[#3B3B98] text-[6px] font-bold px-1 py-0.5 rounded shadow-lg border border-white/10">FROM</div>
@@ -536,10 +536,10 @@ export default function Dashboard() {
                         <div className="absolute -top-1.5 bg-indigo-500 text-[6px] font-bold px-1 py-0.5 rounded shadow-lg border border-white/10">TO</div>
                       )}
                       
-                      <div className="w-6 h-6 rounded-lg bg-white flex items-center justify-center p-1 shadow-sm">
+                      <div className="w-5 h-5 rounded-lg bg-white flex items-center justify-center p-1 shadow-sm">
                         <BankLogo bankName={acc.bankName} className="w-full h-full" />
                       </div>
-                      <span className="text-[8px] font-bold whitespace-nowrap overflow-hidden text-ellipsis w-full text-center tracking-wide">
+                      <span className="text-[7.5px] font-bold whitespace-nowrap overflow-hidden text-ellipsis w-full text-center tracking-wide">
                         {acc.bankName.substring(0, 10)}
                       </span>
                     </button>
